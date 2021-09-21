@@ -1,49 +1,54 @@
+package eliteserien.core;
 
-public class soccerTeams{
+public class SoccerTeam{
 
-    String name;
-    int playedGames;
-    int lostGames;
-    int wonGames;
-    int tiedGames;
+    private String name;
+    private int gamesPlayed;
+    private int gamesLost;
+    private int gamesWon;
+    private int gamesTied;
 
-    public soccerTeams(String name){
+    public SoccerTeam(String name){
         this.name = name;
+        this.gamesPlayed = 0;
+        this.gamesTied = 0;
+        this.gamesLost = 0;
+        this.gamesWon = 0;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getLostGames() {
-        return lostGames;
+    public int getGamesPlayed() {
+        return gamesPlayed;
     }
 
-    public int getPlayedGames() {
-        return playedGames;
+    public int getGamesLost() {
+        return gamesLost;
     }
 
-    public int getTiedGames() {
-        return tiedGames;
+    public int getGamesTied() {
+        return gamesTied;
     }
 
-    public int getWonGames() {
-        return wonGames;
+    public int getGamesWon() {
+        return gamesWon;
     }
 
-    public void setLostGames(int lostGames) {
-        this.lostGames = lostGames;
+    public void setGamesPlayed(int gamesPlayed) {
+        this.gamesPlayed = gamesPlayed;
     }
 
-    public void setPlayedGames(int playedGames) {
-        this.playedGames = playedGames;
+    public void setGamesLost(int gamesLost) {
+        this.gamesLost = gamesLost;
     }
 
-    public void setTiedGames(int tiedGames) {
-        this.tiedGames = tiedGames;
+    public void setGamesTied(int gamesTied) {
+        this.gamesTied = gamesTied;
     }
 
-    public void setWonGames(int wonGames) {
-        this.wonGames = wonGames;
+    public void setGamesWon(int gamesWon) {
+        this.gamesWon = gamesWon;
     }
 }
