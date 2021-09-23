@@ -1,4 +1,4 @@
-package main.java.eliteserien.ui;
+package eliteserien.ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

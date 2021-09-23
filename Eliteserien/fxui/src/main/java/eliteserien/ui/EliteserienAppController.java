@@ -1,9 +1,11 @@
 package eliteserien.ui;
 
-public class EliteserienAppController{
+import javafx.fxml.FXML;
+
+public class EliteserienAppController {
 
     @FXML
-    private void initialize(){
+    private void initialize() {
 
     }
 }

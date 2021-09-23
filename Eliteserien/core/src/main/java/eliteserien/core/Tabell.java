@@ -1,11 +1,16 @@
 package eliteserien.core;
 
-public class Tabell implements MatchListener{
+import java.util.List;
 
-    private List<Team> teams; //typen Team viser til klassen for lagene og må endre navn til hva nå enn den klassen blir kalt.
+public class Tabell implements MatchListener {
 
-    public Tabell(Team... teams){
-        this.teams = new ArrayList<Team>(Arrays.asList(teams));
+    private List<SoccerTeam> teams; //typen Team viser til klassen for lagene og må endre navn til hva nå enn den klassen blir kalt.
+
+    public Tabell(List<SoccerTeam> teams) {
+        this.teams = teams;
     }
 
+    public List<SoccerTeam> getTeams() {
+        return teams;
+    }
 }
