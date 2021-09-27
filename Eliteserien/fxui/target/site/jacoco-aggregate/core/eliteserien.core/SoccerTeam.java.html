@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="no"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>SoccerTeam.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">fxui</a> &gt; <a href="../index.html" class="el_bundle">core</a> &gt; <a href="index.source.html" class="el_package">eliteserien.core</a> &gt; <span class="el_source">SoccerTeam.java</span></div><h1>SoccerTeam.java</h1><pre class="source lang-java linenums">package eliteserien.core;
+
+public class SoccerTeam{
+
+    private String name;
+    private int gamesPlayed;
+    private int gamesLost;
+    private int gamesWon;
+    private int gamesTied;
+
+<span class="nc" id="L11">    public SoccerTeam(String name){</span>
+<span class="nc" id="L12">        this.name = name;</span>
+<span class="nc" id="L13">        this.gamesPlayed = 0;</span>
+<span class="nc" id="L14">        this.gamesTied = 0;</span>
+<span class="nc" id="L15">        this.gamesLost = 0;</span>
+<span class="nc" id="L16">        this.gamesWon = 0;</span>
+<span class="nc" id="L17">    }</span>
+
+    public String getName() {
+<span class="nc" id="L20">        return name;</span>
+    }
+
+    public int getGamesPlayed() {
+<span class="nc" id="L24">        return gamesPlayed;</span>
+    }
+
+    public int getGamesLost() {
+<span class="nc" id="L28">        return gamesLost;</span>
+    }
+
+    public int getGamesTied() {
+<span class="nc" id="L32">        return gamesTied;</span>
+    }
+
+    public int getGamesWon() {
+<span class="nc" id="L36">        return gamesWon;</span>
+    }
+
+    public void setGamesPlayed(int gamesPlayed) {
+<span class="nc" id="L40">        this.gamesPlayed = gamesPlayed;</span>
+<span class="nc" id="L41">    }</span>
+
+    public void setGamesLost(int gamesLost) {
+<span class="nc" id="L44">        this.gamesLost = gamesLost;</span>
+<span class="nc" id="L45">    }</span>
+
+    public void setGamesTied(int gamesTied) {
+<span class="nc" id="L48">        this.gamesTied = gamesTied;</span>
+<span class="nc" id="L49">    }</span>
+
+    public void setGamesWon(int gamesWon) {
+<span class="nc" id="L52">        this.gamesWon = gamesWon;</span>
+<span class="nc" id="L53">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
