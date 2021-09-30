@@ -1,6 +1,6 @@
 package eliteserien.core;
 
-public class Match {
+public class SoccerMatch {
     private String team1name;
     private String team2name;
     private int team1points;
@@ -10,10 +10,10 @@ public class Match {
      * ArrayList<String> format: [teamname, teamscore]
      */
 
-    public Match() {
+    public SoccerMatch() {
     }
 
-    public Match(String team1name, String team2name, int team1points, int team2points) {
+    public SoccerMatch(String team1name, String team2name, int team1points, int team2points) {
         this.team1name = team1name;
         this.team2name = team2name;
         this.team1points = team1points;

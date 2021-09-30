@@ -4,16 +4,16 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
-import eliteserien.core.Match;
+import eliteserien.core.SoccerMatch;
 
-class matchesPlayedSerializer extends JsonSerializer<Match> {
+class matchesPlayedSerializer extends JsonSerializer<SoccerMatch> {
 
   /*
    * format: { "text": "...", "checked": false, "deadline": ... }
    */
 
   @Override
-  public void serialize(Match match, JsonGenerator jsonGen, SerializerProvider serializerProvider)
+  public void serialize(SoccerMatch match, JsonGenerator jsonGen, SerializerProvider serializerProvider)
       throws IOException {
     jsonGen.writeStartObject();
     jsonGen.writeStringField("name1", match.getTeam1Name());

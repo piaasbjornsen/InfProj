@@ -10,20 +10,20 @@ import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import java.io.IOException;
-import eliteserien.core.Match;
+import eliteserien.core.SoccerMatch;
 
-class matchesPlayedDeserializer extends JsonDeserializer<Match> {
+class matchesPlayedDeserializer extends JsonDeserializer<SoccerMatch> {
 
   @Override
-  public Match deserialize(JsonParser parser, DeserializationContext ctxt)
+  public SoccerMatch deserialize(JsonParser parser, DeserializationContext ctxt)
       throws IOException, JsonProcessingException {
     TreeNode treeNode = parser.getCodec().readTree(parser);
     return deserialize((JsonNode) treeNode);
   }
 
-  Match deserialize(JsonNode jsonNode) {
+  SoccerMatch deserialize(JsonNode jsonNode) {
     if (jsonNode instanceof ObjectNode objectNode) {
-      Match match = new Match();
+      SoccerMatch match = new SoccerMatch();
       JsonNode name1Node = objectNode.get("name1");
       if (name1Node instanceof TextNode) {
         match.setTeam1Name(name1Node.asText());
