@@ -19,7 +19,7 @@ public class Table extends AbstractTable {
     }
 
     @Override
-    public SoccerTeam creatSoccerTeam() {
+    public SoccerTeam createSoccerTeam() {
         return new TableTeam();
     }
 
@@ -43,17 +43,17 @@ public class Table extends AbstractTable {
     }
 
     @Override
-    public void removeTableTeam(TableTeam team) {
+    public void removeSoccerTeam(SoccerTeam team) {
         teams.remove(team);
     }
 
     @Override
-    public int indexOf(TableTeam team) {
+    public int indexOf(SoccerTeam team) {
         return teams.indexOf(team);
     }
 
     @Override
-    public void moveTableTeam(TableTeam team, int newIndex) {
+    public void moveSoccerTeam(SoccerTeam team, int newIndex) {
         teams.remove(team);
         teams.add(newIndex, team);
         fireTableChanged();

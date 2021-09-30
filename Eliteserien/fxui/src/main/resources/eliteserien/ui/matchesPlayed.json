@@ -1,24 +1,16 @@
 {
     "matches": [
         {
-            "team1": {
-                "name": "RBK",
-                "points": 3
-            },
-            "team2": {
-                "name": "LSK",
-                "points": 0
-            }
+            "name1": "RBK",
+            "points1": 3,
+            "name2": "LSK",
+            "points2": 0
         },
         {
-            "team1": {
-                "name": "GLIMT",
-                "points": 1
-            },
-            "team2": {
-                "name": "TIL",
-                "points": 1
-            }
+            "name1": "GLIMT",
+            "points1": 1,
+            "name2": "TIL",
+            "points2": 1
         }
     ]
 }
