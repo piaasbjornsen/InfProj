@@ -10,8 +10,8 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import todolist.core.TodoModel;
-import todolist.json.internal.TodoModule;
+import eliteserien.core.TableModel;
+import eliteserien.json.internal.TableModule;
 
 /**
  * Wrapper class for JSON serialization,
