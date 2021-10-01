@@ -1,6 +1,6 @@
 package eliteserien.core;
 
-public interface MatchListener {
+public interface TableListener {
 
     public void tableChanged(Table table);
 }
