@@ -10,18 +10,15 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import eliteserien.core.TableModel;
+import eliteserien.core.Table;
 import eliteserien.json.internal.TableModule;
 
-/**
- * Wrapper class for JSON serialization,
- * to avoid direct compile dependencies on Jackson for other modules.
- */
-public class matchesPersistence {
+
+public class TablePersistence {
 
   private ObjectMapper mapper;
 
-  public matchesPersistence() {
+  public TablePersistence() {
     mapper = createObjectMapper();
   }
 
@@ -34,12 +31,12 @@ public class matchesPersistence {
       .registerModule(createJacksonModule(true));
   }
 
-  public TableModel readTableModel(Reader reader) throws IOException {
-    return mapper.readValue(reader, TableModel.class);
+  public Table readTable(Reader reader) throws IOException {
+    return mapper.readValue(reader, Table.class);
   }
 
-  public void writeTableModel(TableModel tableModel, Writer writer) throws IOException {
-    mapper.writerWithDefaultPrettyPrinter().writeValue(writer, tableModel);
+  public void writeTable(Table table, Writer writer) throws IOException {
+    mapper.writerWithDefaultPrettyPrinter().writeValue(writer, table);
   }
 
   private Path saveFilePath = null;
@@ -53,26 +50,26 @@ public class matchesPersistence {
    *
    * @return the loaded TableModel
    */
-  public TableModel loadTableModel() throws IOException, IllegalStateException {
+  public Table loadTable() throws IOException, IllegalStateException {
     if (saveFilePath == null) {
       throw new IllegalStateException("Save file path is not set, yet");
     }
     try (Reader reader = new FileReader(saveFilePath.toFile(), StandardCharsets.UTF_8)) {
-      return readTableModel(reader);
+      return readTable(reader);
     }
   }
 
   /**
-   * Saves a TableModel to the saveFilePath in the user.home folder.
+   * Saves a Table to the saveFilePath in the user.home folder.
    *
-   * @param tableModel the TableModel to save
+   * @param table the Table to save
    */
-  public void saveTableModel(TableModel tableModel) throws IOException, IllegalStateException {
+  public void saveTable(Table table) throws IOException, IllegalStateException {
     if (saveFilePath == null) {
       throw new IllegalStateException("Save file path is not set, yet");
     }
     try (Writer writer = new FileWriter(saveFilePath.toFile(), StandardCharsets.UTF_8)) {
-      writeTableModel(tableModel, writer);
+      writeTable(table, writer);
     }
   }
 }

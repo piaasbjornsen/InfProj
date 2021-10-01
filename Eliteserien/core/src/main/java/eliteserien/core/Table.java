@@ -1,29 +1,40 @@
 package eliteserien.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-public class Table extends AbstractTable {
+public class Table {
+    private String name = "Tippeligaen";
+    private List<SoccerTeam> teams = new ArrayList<>();
 
-    private List<SoccerTeam> teams = new ArrayList<>(); //typen Team viser til klassen for lagene og må endre navn til hva nå enn den klassen blir kalt.
-
-    public Table(String name, SoccerTeam... teams) {
-        super(name);
+    public Table(SoccerTeam... teams) {
         addSoccerTeams(teams);
     }
 
     @Override
     public String toString() {
-        return String.format("[Table name=%s]", getName());
+        return String.format("[Table name=%s #teams=%s]", getName(), teams.size());
     }
 
-    @Override
+    public String getName(){
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Table getTable(String name) {
+        return this;
+    }
+
     public SoccerTeam createSoccerTeam() {
         return new TableTeam();
     }
 
-    @Override
     public void addSoccerTeams(SoccerTeam... teams) throws IllegalStateException {
         for (SoccerTeam team : teams) {
             TableTeam tableTeam = null;
@@ -42,27 +53,56 @@ public class Table extends AbstractTable {
         fireTableChanged();
     }
 
-    @Override
     public void removeSoccerTeam(SoccerTeam team) {
         teams.remove(team);
     }
 
-    @Override
+    public Iterator<SoccerTeam> iterator() {
+        return teams.iterator();
+    }
+
+    public Collection<SoccerTeam> getSoccerTeams() {
+        Collection<SoccerTeam> soccerTeams = new ArrayList<>(teams.size());
+        for (SoccerTeam team : teams) {
+            soccerTeams.add(team);
+        }
+        return soccerTeams;
+    }
+
     public int indexOf(SoccerTeam team) {
         return teams.indexOf(team);
     }
 
-    @Override
     public void moveSoccerTeam(SoccerTeam team, int newIndex) {
         teams.remove(team);
         teams.add(newIndex, team);
         fireTableChanged();
     }
 
-    @Override
-    protected void fireTableChanged(MatchListener listener) {
+    private Collection<TableListener> tableListeners = new ArrayList<>();
+
+    public void addTableListener(TableListener listener) {
+        tableListeners.add(listener);
+    }
+
+    public void removeTableListener(TableListener listener) {
+        tableListeners.remove(listener);
+    }
+
+    protected void fireTableChanged(Table table) {
+        fireTableChanged();
+    }
+
+    protected void fireTableChanged(TableListener listener) {
         listener.tableChanged(this);
     }
+    
+    protected void fireTableChanged() {
+        for (TableListener listener : tableListeners) {
+            fireTableChanged(listener);
+        }
+    }
+
 
     private class TableTeam extends SoccerTeam {
 
@@ -75,20 +115,20 @@ public class Table extends AbstractTable {
         public void setName(String name) {
             if (!Objects.equals(name, getName())) {
                 super.setName(name);
-                fireTableChanged(this);
+                fireTableChanged(Table.this);
             }
         }
 
         @Override
         public void setPoints(int points) {
             super.setPoints(points);
-            fireTableChanged(this);
+            fireTableChanged(Table.this);
         }
 
         @Override
         public void addPoints(int points) {
             super.addPoints(points);
-            fireTableChanged(this);
+            fireTableChanged(Table.this);
         }
     }
 }
