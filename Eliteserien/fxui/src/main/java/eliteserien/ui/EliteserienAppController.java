@@ -21,24 +21,6 @@ import javafx.util.Callback;
 
 public class EliteserienAppController {
 
-    private static final String tableWithTwoTeams = """
-    {
-      "Table" : [
-        {
-            "teamname": "RBK",
-            "points": "3",
-            },
-            {
-            "teamname": "LSK",
-            "points": "1",
-            }
-        }
-      ]
-    }
-    """;
-
-
-
     @FXML
     String userTablePath;
 
@@ -53,30 +35,13 @@ public class EliteserienAppController {
 
     private Table getInitialTable() {
         Table table = null;
-        if (tablePersistence != null) {
-            try {
-                table = tablePersistence.loadTable();
-            } catch (Exception ioex) {
-                System.err.println("Could not read saved table");
-            }
+        try {
+            table = tablePersistence.loadTable();
+        } catch (Exception ioex) {
+            System.err.println("Could not read saved table");
+            ioex.printStackTrace();
         }
-        Reader reader = null;
-        if (table == null) {
-                reader = new StringReader(tableWithTwoTeams);
-            }
-            try {
-                table = tablePersistence.readTable(reader);
-            } catch (IOException e) {
-                // ignore
-            } finally {
-                try {
-                    if (reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    // ignore
-                }
-            }
+
         if (table == null) {
             table = new Table();
             SoccerTeam NNK = new SoccerTeam();
@@ -141,7 +106,6 @@ public class EliteserienAppController {
     @FXML
     void initialize() {
         this.tablePersistence = new TablePersistence();
-        tablePersistence.setSaveFile(userTablePath);
         this.table = getInitialTable();
         System.out.println(tableText);
         updateView();

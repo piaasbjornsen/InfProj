@@ -2,15 +2,15 @@
     "Table": [
         {
             "teamname": "RBK",
-            "points": "3"
+            "points": 3
         },
         {
             "teamname": "TIL",
-            "points": "1"
+            "points": 1
         },
         {
             "teamname": "GLIMT",
-            "points": "0"
+            "points": 0
         }
     ]
 }

@@ -2,6 +2,12 @@ package eliteserien.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,57 +25,24 @@ public class TablePersistence {
   private ObjectMapper mapper;
 
   public TablePersistence() {
-    mapper = createObjectMapper();
-  }
-
-  public static SimpleModule createJacksonModule(boolean deep) {
-    return new TableModule(deep);
-  }
-
-  public static ObjectMapper createObjectMapper() {
-    return new ObjectMapper()
-      .registerModule(createJacksonModule(true));
+    TableModule tableModule = new TableModule(true);
+    mapper = new ObjectMapper()
+    .registerModule(tableModule);
   }
 
   public Table readTable(Reader reader) throws IOException {
     return mapper.readValue(reader, Table.class);
   }
 
-  public void writeTable(Table table, Writer writer) throws IOException {
-    mapper.writerWithDefaultPrettyPrinter().writeValue(writer, table);
-  }
-
-  private Path saveFilePath = null;
-
-  public void setSaveFile(String saveFile) {
-    this.saveFilePath = Paths.get(System.getProperty("user.home"), saveFile);
-  }
-
   /**
-   * Loads a TableModel from the saved file (saveFilePath) in the user.home folder.
+   * Loads a Table from the saved file (saveFilePath) in the user.home folder.
    *
-   * @return the loaded TableModel
+   * @return the loaded Table
    */
   public Table loadTable() throws IOException, IllegalStateException {
-    if (saveFilePath == null) {
-      throw new IllegalStateException("Save file path is not set, yet");
-    }
-    try (Reader reader = new FileReader(saveFilePath.toFile(), StandardCharsets.UTF_8)) {
-      return readTable(reader);
-    }
-  }
+    InputStream inputStream = this.getClass().getResourceAsStream("Table.json");
+    InputStreamReader reader = new InputStreamReader(inputStream);
 
-  /**
-   * Saves a Table to the saveFilePath in the user.home folder.
-   *
-   * @param table the Table to save
-   */
-  public void saveTable(Table table) throws IOException, IllegalStateException {
-    if (saveFilePath == null) {
-      throw new IllegalStateException("Save file path is not set, yet");
-    }
-    try (Writer writer = new FileWriter(saveFilePath.toFile(), StandardCharsets.UTF_8)) {
-      writeTable(table, writer);
-    }
+    return readTable(reader);
   }
 }
