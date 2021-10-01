@@ -46,9 +46,9 @@ public class TablePersistence {
   }
 
   /**
-   * Loads a TableModel from the saved file (saveFilePath) in the user.home folder.
+   * Loads a Table from the saved file (saveFilePath) in the user.home folder.
    *
-   * @return the loaded TableModel
+   * @return the loaded Table
    */
   public Table loadTable() throws IOException, IllegalStateException {
     if (saveFilePath == null) {

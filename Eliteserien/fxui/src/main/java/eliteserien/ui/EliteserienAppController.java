@@ -58,6 +58,7 @@ public class EliteserienAppController {
                 table = tablePersistence.loadTable();
             } catch (Exception ioex) {
                 System.err.println("Could not read saved table");
+                ioex.printStackTrace();
             }
         }
         Reader reader = null;
