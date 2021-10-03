@@ -14,6 +14,23 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import eliteserien.core.SoccerTeam;
 import eliteserien.core.Table;
 
+ /*
+   * TableDeserializer: reads json files with Table format and returns a Table object containting the
+   * SoccerTeam objects as described in the json file. 
+   */
+
+   /*
+   * format: { "Table": [ {"teamname": , "points": }, ... ] }
+   * 
+   * deserialize method:
+   * treeNode input is the content in the json-file
+   * A empty Table object is made.
+   * tableNode contains the data in the "Table" array as described in the json-file (SoccerTeam name and points)
+   * A SoccerTeam object is made for all elements in the Table array with a for-loop.
+   * The SoccerTeam objects is then added to the Table object.
+   * The Table object is returned.
+   */
+
 class TableDeserializer extends JsonDeserializer<Table> {
 
   @Override

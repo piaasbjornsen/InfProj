@@ -1,23 +1,39 @@
 package eliteserien.ui;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
 import eliteserien.core.TableListener;
 import eliteserien.core.SoccerTeam;
 import eliteserien.core.Table;
 import eliteserien.json.TablePersistence;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
+
+/**
+ * Controller class
+ * 
+ * Attributes: 
+ * Tablepersistence object for reading and writing to json-file.
+ * Table object made by collecting data from the json-file. 
+ * 
+ * FXML attributes:
+ * userTablePath: contains json-filename.
+ * tableText: contains the Table object as text.
+ * 
+ * Methods:
+ * getInitialTable: initializes the table object and adding soccerteams based on data
+ * collected from the json-file (using the persistence object).
+ * Getters and setters for table object.
+ * Methods for listeners (not used in this stage).
+ * setTableText method sets the table as a text using the toString method in Table class.
+ * updateView sets tableText for now.
+ * 
+ * Initialize method: 
+ * makes a TablePersistence object and uses this to get data from json-file.
+ * Makes the Table object using the data collected.
+ * Updates view.
+ * 
+ */
+
 
 public class EliteserienAppController {
 
@@ -38,18 +54,10 @@ public class EliteserienAppController {
             System.err.println("Could not read saved table");
             ioex.printStackTrace();
         }
-
-        if (table == null) {
-            table = new Table();
-            SoccerTeam NNK = new SoccerTeam();
-            NNK.addPoints(2);
-            NNK.setName("NNK");
-            table.addSoccerTeams(NNK);
-        }
         return table;
     }
 
-    Table getTable() {
+    public Table getTable() {
         return table;
     }
 
@@ -78,16 +86,7 @@ public class EliteserienAppController {
     };
 
     protected void setTableText() {
-        List<SoccerTeam> teams = new ArrayList<>();
-        if (table != null) {
-            teams.addAll(table.getSoccerTeams());
-        }
-        String tableString = "";
-        for (SoccerTeam team : teams) {
-            String namestring = ("teamname: " + team.getName()+ ", ");
-            String pointstring = ("points: " + team.getPoints() + "; ");
-            tableString = (tableString + namestring + pointstring);
-        }
+        String tableString = table.toString();
         tableText.setText(tableString);
     }
 
@@ -98,8 +97,8 @@ public class EliteserienAppController {
     @FXML
     void initialize() {
         this.tablePersistence = new TablePersistence();
+        tablePersistence.setSaveFilePath(userTablePath.toString());
         this.table = getInitialTable();
-        System.out.println(tableText);
         updateView();
     }
 }

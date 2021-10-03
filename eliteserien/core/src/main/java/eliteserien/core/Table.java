@@ -6,6 +6,30 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Core data for Table class.
+ * 
+ * Attributes: name: "Tippeligaen", list: ArrayList of SoccerTeam objects. 
+ * 
+ * Constructor: takes SoccerTeam objects as input and adds them in the collection of teams.
+ * 
+ * Methods: 
+ * toString-method showing the teams in the list and their points. 
+ * Getters and setters for name and teams.
+ * CreateSoccerTeam method which creates a Tableteam object (extends SoccerTeam).
+ * AddSoccerTeam method which takes SoccerTeam objects as input, makes new TableTeam objects with same 
+ * attributes as input SoccerTeam objects and adds the TableTeam objects to the list of teams.
+ * other methods: moveSoccerTeam, removeSoccerTeam, indexOf(SoccerTeam) and iterator.
+ * 
+ * This class also have a collection of listeners with methods for adding and removing listeners. 
+ * fireTableChange method tells the listeners in the collection that the Table has been changed.
+ * 
+ * The private class TableTeam is an extention of the SoccerTeam class and is implemented to
+ * tell the table object and the listeners of this object that the table
+ * has changed when the attributes of the team is changed.
+ */
+
+
 public class Table {
     private String name = "Tippeligaen";
     private List<SoccerTeam> teams = new ArrayList<>();
@@ -16,7 +40,11 @@ public class Table {
 
     @Override
     public String toString() {
-        return String.format("[Table name=%s #teams=%s]", getName(), teams.size());
+        String teamListString = "";
+        for (SoccerTeam team : teams) {
+            teamListString = teamListString + team.toString();
+        }
+        return String.format("[Table text=%s %n]", teamListString);
     }
 
     public String getName(){
