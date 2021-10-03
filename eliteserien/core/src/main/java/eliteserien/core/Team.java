@@ -4,13 +4,13 @@ package eliteserien.core;
 import java.util.Collection;
 
 /**
- * Core data of soccerteams
+ * Core data of football teams
  * Attributes: name and points
- * Constructor: one with empty input(gives a soccerteam with name: "", points: 0), and one with input name and points.
+ * Constructor: one with empty input(gives a football team with name: "", points: 0), and one with input name and points.
  * Methods: getters and setters, addPoints and private method for valid name check (must be team in tippeligaen).
  */
 
-public class SoccerTeam{
+public class Team{
 
     private String name;
     private int points;
@@ -19,10 +19,10 @@ public class SoccerTeam{
      * TODO: make validname-list
      */
 
-    public SoccerTeam(){
+    public Team(){
     }
 
-    public SoccerTeam(String name, int points) {
+    public Team(String name, int points) {
         isValidName(name);
         this.name = name;
         this.points = points;
@@ -30,12 +30,13 @@ public class SoccerTeam{
 
     @Override
     public String toString() {
-        String soccerteamString = getName() + ", " + getPoints();
-        return soccerteamString;
+        String teamString = getName() + ", " + getPoints();
+        return teamString;
     }
     
 /**
- *  TODO: make isValidName check if the input name is in the collection of valid names. Add exception if name not valid.
+ * TODO: make isValidName check if the input name is in the collection of valid names. 
+ * Add exception if name not valid.
  */
 
     private boolean isValidName(String name) {

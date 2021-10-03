@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
 
-import eliteserien.core.SoccerTeam;
+import eliteserien.core.Team;
 import eliteserien.core.Table;
 
 
@@ -34,7 +34,7 @@ class TableSerializer extends JsonSerializer<Table> {
   public void serialize(Table table, JsonGenerator jsonGen, SerializerProvider serializerProvider) throws IOException {
     jsonGen.writeStartObject();
     jsonGen.writeArrayFieldStart("Table");
-    for (SoccerTeam team : table.getSoccerTeams()) {
+    for (Team team : table.getTeams()) {
       if (deep) {
         jsonGen.writeObject(team);
       } 

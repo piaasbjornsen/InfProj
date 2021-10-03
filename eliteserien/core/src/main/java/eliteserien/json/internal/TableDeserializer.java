@@ -11,12 +11,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import eliteserien.core.SoccerTeam;
+import eliteserien.core.Team;
 import eliteserien.core.Table;
 
  /*
    * TableDeserializer: reads json files with Table format and returns a Table object containting the
-   * SoccerTeam objects as described in the json file. 
+   * Team objects as described in the json file. 
    */
 
    /*
@@ -25,9 +25,9 @@ import eliteserien.core.Table;
    * deserialize method:
    * treeNode input is the content in the json-file
    * A empty Table object is made.
-   * tableNode contains the data in the "Table" array as described in the json-file (SoccerTeam name and points)
-   * A SoccerTeam object is made for all elements in the Table array with a for-loop.
-   * The SoccerTeam objects is then added to the Table object.
+   * tableNode contains the data in the "Table" array as described in the json-file (Team name and points)
+   * A Team object is made for all elements in the Table array with a for-loop.
+   * The Team objects is then added to the Table object.
    * The Table object is returned.
    */
 
@@ -48,11 +48,11 @@ class TableDeserializer extends JsonDeserializer<Table> {
         for (JsonNode elementNode : arrayNode) {
           String teamname = elementNode.get("teamname").toString();
           int points = Integer.parseInt(elementNode.get("points").toString());
-          SoccerTeam team = new SoccerTeam();
+          Team team = new Team();
           team.setPoints(points);
           team.setName(teamname);
           if (team != null) {
-            table.addSoccerTeams(team);
+            table.addTeams(team);
           }
         }
       }

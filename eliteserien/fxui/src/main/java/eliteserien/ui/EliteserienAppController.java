@@ -1,7 +1,7 @@
 package eliteserien.ui;
 
 import eliteserien.core.TableListener;
-import eliteserien.core.SoccerTeam;
+import eliteserien.core.Team;
 import eliteserien.core.Table;
 import eliteserien.json.TablePersistence;
 import javafx.fxml.FXML;
@@ -20,7 +20,7 @@ import javafx.util.Callback;
  * tableText: contains the Table object as text.
  * 
  * Methods:
- * getInitialTable: initializes the table object and adding soccerteams based on data
+ * getInitialTable: initializes the table object and adding teams based on data
  * collected from the json-file (using the persistence object).
  * Getters and setters for table object.
  * Methods for listeners (not used in this stage).
