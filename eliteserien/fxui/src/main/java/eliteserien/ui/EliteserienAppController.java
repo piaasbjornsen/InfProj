@@ -25,9 +25,6 @@ public class EliteserienAppController {
     String userTablePath;
 
     @FXML
-    ListView<SoccerTeam> tableView;
-
-    @FXML
     Text tableText;
 
     private TablePersistence tablePersistence;
@@ -95,11 +92,6 @@ public class EliteserienAppController {
     }
 
     protected void updateView() {
-        List<SoccerTeam> teams = new ArrayList<>();
-        if (table != null) {
-            teams.addAll(table.getSoccerTeams());
-        }
-        tableView.getItems().setAll(teams);
         setTableText();
     }
 
