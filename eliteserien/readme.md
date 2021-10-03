@@ -10,7 +10,7 @@ The application will show a table of the Norwegian football League "Eliteserien"
 
 This is how the app should look when its complete:
 
-![Exampleimage](docs/images/eliteserienexample.png)
+![Exampleimage](docs/images/eliteserienexample.PNG)
 
 ## Architecture
 
