@@ -4,6 +4,11 @@ import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import eliteserien.core.Table;
 
+/**
+ * A Jackson module for reading and writing to json-files.
+ * TableModule constructor adds the Serializer and DeSerializer for Table objects.
+ */
+
 
 @SuppressWarnings("serial")
 public class TableModule extends SimpleModule {
