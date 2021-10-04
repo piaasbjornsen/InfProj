@@ -1,0 +1,28 @@
+@startuml
+
+component core {
+	package eliteserien.core
+	package eliteserien.json
+}
+
+component jackson {
+}
+
+eliteserien.json ..> jackson
+
+component fxui {
+	package eliteserien.ui
+}
+
+eliteserien.ui ..> eliteserien.core
+eliteserien.ui ..> eliteserien.json
+
+component javafx {
+	component fxml {
+	}
+}
+
+fxui ..> javafx
+fxui ..> fxml
+
+@enduml
