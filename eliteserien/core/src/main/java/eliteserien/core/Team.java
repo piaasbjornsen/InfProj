@@ -14,7 +14,8 @@ public class Team{
 
     private String name;
     private int points;
-    private Collection<String> validNames; 
+    // private Collection<String> validNames; 
+    
     /** 
      * TODO: make validname-list
      */
@@ -23,7 +24,7 @@ public class Team{
     }
 
     public Team(String name, int points) {
-        isValidName(name);
+        //isValidName(name);
         this.name = name;
         this.points = points;
     }
@@ -39,16 +40,16 @@ public class Team{
  * Add exception if name not valid.
  */
 
-    private boolean isValidName(String name) {
-        return true;
-    }
+    //private boolean isValidName(String name) {
+    //    return true;
+    //}
 
     public String getName() {
         return name;
     }
 
     public void setName(String name){
-        isValidName(name);
+        //isValidName(name);
         this.name = name;
     }
 

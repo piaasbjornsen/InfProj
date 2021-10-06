@@ -42,7 +42,7 @@ public class Table {
     public String toString() {
         String teamListString = "";
         for (Team team : teams) {
-            teamListString = teamListString + team.toString();
+            teamListString = teamListString.concat(team.toString());
         }
         return String.format("[Table text=%s %n]", teamListString);
     }
@@ -144,10 +144,8 @@ public class Table {
 
         @Override
         public void setName(String name) {
-            if (!Objects.equals(name, getName())) {
-                super.setName(name);
-                fireTableChanged(Table.this);
-            }
+            super.setName(name);
+            fireTableChanged(Table.this);
         }
 
         @Override
