@@ -2,11 +2,14 @@ package eliteserien.ui;
 
 import eliteserien.core.TableListener;
 import eliteserien.core.Team;
+
+import java.io.IOException;
+
 import eliteserien.core.Table;
 import eliteserien.json.TablePersistence;
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
-import javafx.util.Callback;
+import javafx.scene.control.TextArea;
+
 
 /**
  * Controller class
@@ -38,23 +41,40 @@ import javafx.util.Callback;
 public class EliteserienAppController {
 
     @FXML
-    String userTablePath;
+    String fileName;
 
     @FXML
-    Text tableText;
+    TextArea tableText;
 
-    private TablePersistence tablePersistence;
+    private TablePersistence tablePersistence = new TablePersistence();
     private Table table;
 
     private Table getInitialTable() {
         Table table = null;
         try {
-            table = tablePersistence.loadTable();
-        } catch (Exception ioex) {
-            System.err.println("Could not read saved table");
-            ioex.printStackTrace();
+            table = tablePersistence.loadInitialTable(fileName);
+        } catch (IOException e) {
+            System.err.println("Could not read initial table");
         }
         return table;
+    }
+
+    public Table getSavedTable() {
+        Table table = null;
+        try {
+            table = tablePersistence.loadSavedTable(fileName);
+        } catch (IOException e) {
+            System.err.println("Could not read saved table");
+        }
+        return table;
+    } 
+
+    public void saveTable() {
+        try {
+            tablePersistence.saveTable(table, fileName);
+        } catch (IOException e) {
+            System.err.println("Could not save Table");
+        }
     }
 
     public Table getTable() {
@@ -62,32 +82,12 @@ public class EliteserienAppController {
     }
 
     public void setTable(Table table) {
-        if (this.table != null) {
-            this.table.removeTableListener(listener);
-        }
         this.table = table;
         updateView();
-        if (this.table != null) {
-            this.table.addTableListener(listener);
-        }
     }
-    
-    private Callback<Table, Void> onTableChanged = null;
-
-    public void setOnTableChanged(Callback<Table, Void> onTableChanged) {
-        this.onTableChanged = onTableChanged;
-    }
-
-    private TableListener listener = table -> {
-        if (onTableChanged != null) {
-            onTableChanged.call(getTable());
-        }
-        updateView();
-    };
 
     protected void setTableText() {
-        String tableString = table.toString();
-        tableText.setText(tableString);
+        tableText.setText(table.toString());
     }
 
     protected void updateView() {
@@ -96,10 +96,6 @@ public class EliteserienAppController {
 
     @FXML
     void initialize() {
-        this.tablePersistence = new TablePersistence();
-        tablePersistence.setSaveFilePath(userTablePath.toString());
-        this.table = getInitialTable();
-        updateView();
+        setTable(getInitialTable());
     }
 }
-

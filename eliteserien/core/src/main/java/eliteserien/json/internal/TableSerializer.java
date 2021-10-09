@@ -20,30 +20,16 @@ import eliteserien.core.Table;
 
 class TableSerializer extends JsonSerializer<Table> {
 
-  private final boolean deep;
-
-  public TableSerializer(boolean deep) {
-    this.deep = deep;
-  }
-
-  public TableSerializer() {
-    this(true);
-  }
 
   @Override
   public void serialize(Table table, JsonGenerator jsonGen, SerializerProvider serializerProvider) throws IOException {
     jsonGen.writeStartObject();
     jsonGen.writeArrayFieldStart("Table");
     for (Team team : table.getTeams()) {
-      if (deep) {
-        jsonGen.writeObject(team);
-      } 
-      else {
-        jsonGen.writeStartObject();
-        jsonGen.writeStringField("teamname", team.getName());
-        jsonGen.writeNumberField("points", team.getPoints());
-        jsonGen.writeEndObject();
-      }
+      jsonGen.writeStartObject();
+      jsonGen.writeStringField("teamname", team.getName());
+      jsonGen.writeNumberField("points", team.getPoints());
+      jsonGen.writeEndObject();
     }
     jsonGen.writeEndArray();
     jsonGen.writeEndObject();

@@ -4,15 +4,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import eliteserien.core.Table;
 import eliteserien.json.TablePersistence;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -22,8 +22,9 @@ public class EliteserienAppTest extends ApplicationTest {
   private EliteserienAppController controller;
   private TablePersistence tablePersistence = new TablePersistence();
 
+
   @FXML
-  Text tabletext;
+  TextArea tableText;
 
 
   @Override
