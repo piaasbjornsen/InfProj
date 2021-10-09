@@ -43,8 +43,9 @@ public class Table {
         String teamListString = "";
         for (Team team : teams) {
             teamListString = teamListString.concat(team.toString());
+            teamListString = teamListString.concat("\n");
         }
-        return String.format("[Table text=%s %n]", teamListString);
+        return teamListString;
     }
 
     public String getName(){
