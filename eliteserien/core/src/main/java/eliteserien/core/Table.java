@@ -2,9 +2,9 @@ package eliteserien.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Core data for Table class.
@@ -36,6 +36,7 @@ public class Table {
 
     public Table(Team... teams) {
         addTeams(teams);
+        sortTable();
     }
 
     @Override
@@ -64,6 +65,10 @@ public class Table {
         return new TableTeam(name, points);
     }
 
+    private void sortTable() {
+        Collections.sort(this.teams, new TeamComparator());
+    }
+
     public void addTeams(Team... teams) throws IllegalStateException {
         for (Team team : teams) {
             TableTeam tableTeam = null;
@@ -76,12 +81,9 @@ public class Table {
                 throw new IllegalStateException("TableTeam does not belong to this list Table");
             }
             this.teams.add(tableTeam);
+            sortTable();
         }
         fireTableChanged();
-    }
-
-    public void removeTeam(Team team) {
-        teams.remove(team);
     }
 
     public Iterator<Team> iterator() {
@@ -94,16 +96,6 @@ public class Table {
             teamcollection.add(team);
         }
         return teamcollection;
-    }
-
-    public int indexOf(Team team) {
-        return teams.indexOf(team);
-    }
-
-    public void moveTeam(Team team, int newIndex) {
-        teams.remove(team);
-        teams.add(newIndex, team);
-        fireTableChanged();
     }
 
     private Collection<TableListener> tableListeners = new ArrayList<>();
