@@ -3,9 +3,12 @@ package eliteserien.ui;
 import java.io.IOException;
 
 import eliteserien.core.Table;
+import eliteserien.core.TableListener;
+import eliteserien.core.Team;
 import eliteserien.json.TablePersistence;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
+import javafx.util.Callback;
 
 
 /**
@@ -32,7 +35,6 @@ import javafx.scene.control.TextArea;
  * SaveTable: saves the Table Object as json-file in user.home folder. 
  * 
  * Getters and setters for table object.
- * Methods for listeners (not used in this stage).
  * setTableText method sets the table as a text using the toString method in Table class.
  * updateView sets tableText for now.
  * 
@@ -40,6 +42,8 @@ import javafx.scene.control.TextArea;
  * use setTable method with input getInitialTable.
  * The setTable method also calls the updateView method so 
  * that the TextArea attribute contains the initialTable.
+ * For testing: adding 1 point to each team and saving result 
+ * in json-file in user.home folder.
  * 
  */
 
@@ -101,8 +105,17 @@ public class EliteserienAppController {
         setTableText();
     }
 
+    public void addTeamPoints(Team team, int i) {
+        team.addPoints(i);
+        updateView();
+    }
+
     @FXML
     void initialize() {
         setTable(getInitialTable());
+        for (Team team : table.getTeams()) {
+            addTeamPoints(team, 1);
+        }
+        saveTable();
     }
 }

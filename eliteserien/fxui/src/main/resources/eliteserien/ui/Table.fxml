@@ -11,5 +11,5 @@
     <fx:define>
         <String fx:id="fileName" fx:value="Table.json"/>
     </fx:define>
-    <TextArea fx:id="tableText"/>
+    <TextArea fx:id="tableText" editable="false"/>
 </GridPane>

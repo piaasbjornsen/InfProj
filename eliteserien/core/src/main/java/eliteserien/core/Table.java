@@ -23,11 +23,6 @@ import java.util.List;
  * to sort teams in table by numbers. Team with most points gets placed first in the list. 
  * Iterator method go through all teams in Table. 
  * 
- * Listeners:
- * Listeners will be used in later iteration of project, when implementation of matches is added.
- * This class have a collection of listeners with methods for adding and removing listeners. 
- * fireTableChange method tells the listeners in the collection that the Table has been changed.
- * 
  * The private class TableTeam is an extention of the Team class and is implemented to
  * tell the table object and the listeners of this object that the table
  * has changed when the attributes of the team is changed.
@@ -86,7 +81,6 @@ public class Table {
             this.teams.add(tableTeam);
             sortTable();
         }
-        fireTableChanged();
     }
 
     public Iterator<Team> iterator() {
@@ -101,33 +95,8 @@ public class Table {
         return teamcollection;
     }
 
-    private Collection<TableListener> tableListeners = new ArrayList<>();
-
-    public void addTableListener(TableListener listener) {
-        tableListeners.add(listener);
-    }
-
-    public void removeTableListener(TableListener listener) {
-        tableListeners.remove(listener);
-    }
-
-    protected void fireTableChanged(Table table) {
-        fireTableChanged();
-    }
-
-    protected void fireTableChanged(TableListener listener) {
-        listener.tableChanged(this);
-    }
-    
-    protected void fireTableChanged() {
-        for (TableListener listener : tableListeners) {
-            fireTableChanged(listener);
-        }
-    }
-
 
     private class TableTeam extends Team {
-
 
         public TableTeam(String name, int points) {
             super(name, points);
@@ -135,24 +104,6 @@ public class Table {
 
         Table getTable() {
             return Table.this;
-        }
-
-        @Override
-        public void setName(String name) {
-            super.setName(name);
-            fireTableChanged(Table.this);
-        }
-
-        @Override
-        public void setPoints(int points) {
-            super.setPoints(points);
-            fireTableChanged(Table.this);
-        }
-
-        @Override
-        public void addPoints(int points) {
-            super.addPoints(points);
-            fireTableChanged(Table.this);
         }
     }
 }
