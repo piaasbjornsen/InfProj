@@ -4,7 +4,7 @@ package eliteserien.core;
  * Core data of football teams
  * Attributes: name and points
  * Constructor: one with empty input(gives a football team with name: "", points: 0), and one with input name and points.
- * Methods: getters and setters, addPoints and private method for valid name check (must be team in tippeligaen).
+ * Methods: getters and setters and addPoints.
  */
 
 public class Team{

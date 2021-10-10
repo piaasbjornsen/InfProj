@@ -19,9 +19,13 @@ import java.util.List;
  * CreateTeam method which creates a Tableteam object (extends Team).
  * AddTeam method which takes Team objects as input, makes new TableTeam objects with same 
  * attributes as input Team objects and adds the TableTeam objects to the list of teams.
- * other methods: moveTeam, removeTeam, indexOf(Team) and iterator.
+ * SortTable method uses the TeamComparator class and built-in sorting functions for Collections
+ * to sort teams in table by numbers. Team with most points gets placed first in the list. 
+ * Iterator method go through all teams in Table. 
  * 
- * This class also have a collection of listeners with methods for adding and removing listeners. 
+ * Listeners:
+ * Listeners will be used in later iteration of project, when implementation of matches is added.
+ * This class have a collection of listeners with methods for adding and removing listeners. 
  * fireTableChange method tells the listeners in the collection that the Table has been changed.
  * 
  * The private class TableTeam is an extention of the Team class and is implemented to
@@ -36,7 +40,6 @@ public class Table {
 
     public Table(Team... teams) {
         addTeams(teams);
-        sortTable();
     }
 
     @Override
@@ -133,7 +136,6 @@ public class Table {
         Table getTable() {
             return Table.this;
         }
-
 
         @Override
         public void setName(String name) {

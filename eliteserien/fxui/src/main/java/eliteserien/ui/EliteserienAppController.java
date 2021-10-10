@@ -1,8 +1,5 @@
 package eliteserien.ui;
 
-import eliteserien.core.TableListener;
-import eliteserien.core.Team;
-
 import java.io.IOException;
 
 import eliteserien.core.Table;
@@ -19,21 +16,30 @@ import javafx.scene.control.TextArea;
  * Table object made by collecting data from the json-file. 
  * 
  * FXML attributes:
- * userTablePath: contains json-filename.
- * tableText: contains the Table object as text.
+ * filename: contains json-filename.
+ * tableText: contains the Table object as textarea.
  * 
  * Methods:
- * getInitialTable: initializes the table object and adding teams based on data
- * collected from the json-file (using the persistence object).
+ * 
+ * getInitialTable: return a table object based on data
+ * collected from the json-file found in resource folder. 
+ * 
+ * getSavedTable: return a table object based on data
+ * collected from the json-file in user.home folder. 
+ * If json-file is not found, the method will return 
+ * the table form initialTable-method.
+ * 
+ * SaveTable: saves the Table Object as json-file in user.home folder. 
+ * 
  * Getters and setters for table object.
  * Methods for listeners (not used in this stage).
  * setTableText method sets the table as a text using the toString method in Table class.
  * updateView sets tableText for now.
  * 
  * Initialize method: 
- * makes a TablePersistence object and uses this to get data from json-file.
- * Makes the Table object using the data collected.
- * Updates view.
+ * use setTable method with input getInitialTable.
+ * The setTable method also calls the updateView method so 
+ * that the TextArea attribute contains the initialTable.
  * 
  */
 
@@ -63,11 +69,12 @@ public class EliteserienAppController {
         Table table = null;
         try {
             table = tablePersistence.loadSavedTable(fileName);
+            return table;
         } catch (IOException e) {
             System.err.println("Could not read saved table");
         }
-        return table;
-    } 
+        return getInitialTable();
+    }
 
     public void saveTable() {
         try {
