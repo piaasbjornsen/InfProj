@@ -47,7 +47,7 @@ class TableDeserializer extends JsonDeserializer<Table> {
       if (tableNode instanceof ArrayNode arrayNode) {
         for (JsonNode elementNode : arrayNode) {
           String teamname = elementNode.get("teamname").toString();
-          teamname = teamname.substring(1, teamname.length()-1);
+          teamname = teamname.substring(1, teamname.length()-1); // removing quotation marks in teamname string.
           int points = Integer.parseInt(elementNode.get("points").toString());
           Team team = new Team();
           team.setPoints(points);

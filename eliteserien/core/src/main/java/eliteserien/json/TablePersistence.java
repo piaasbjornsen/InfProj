@@ -44,7 +44,6 @@ public class TablePersistence {
     this.filePath = Paths.get(System.getProperty("user.home"), fileName);
   }
 
-
   /**
    * Should load a Table from file (fileName) in the resource folder.
    *
