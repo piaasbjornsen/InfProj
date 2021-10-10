@@ -2,11 +2,11 @@
     "Table": [
         {
             "teamname": "GLIMT",
-            "points": 41
+            "points": 44
         },
         {
             "teamname": "MOLDE",
-            "points": 38
+            "points": 41
         },
         {
             "teamname": "ROSENBORG",
@@ -14,7 +14,7 @@
         },
         {
             "teamname": "KRISTIANSUND",
-            "points": 35
+            "points": 38
         },
         {
             "teamname": "VIKING",
@@ -34,7 +34,7 @@
         },
         {
             "teamname": "VALERENGA",
-            "points": 27
+            "points": 30
         },
         {
             "teamname": "ODD",
@@ -50,11 +50,11 @@
         },
         {
             "teamname": "TROMSO",
-            "points": 19
+            "points": 22
         },
         {
             "teamname": "BRANN",
-            "points": 17
+            "points": 18
         },
         {
             "teamname": "STABAEK",
@@ -62,7 +62,7 @@
         },
         {
             "teamname": "MJONDALEN",
-            "points": 14
+            "points": 15
         }
     ]
 }

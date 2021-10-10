@@ -3,9 +3,6 @@ package eliteserien.core;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,9 +15,9 @@ public class TableTest {
     @BeforeEach
     public void setUp() {
         table = new Table();
-        team1 = table.createTeam("RBK", 10);
-        team2 = table.createTeam("GLIMT", 12);
-        team3 = table.createTeam("MOLDE", 14);
+        team1 = table.createTeam("RBK", 12);
+        team2 = table.createTeam("GLIMT", 13);
+        team3 = table.createTeam("MOLDE", 10);
     }
 
     @Test
@@ -40,28 +37,13 @@ public class TableTest {
     }
 
     @Test
-    public void testRemoveTeam() {
-        table.addTeams(team1);
-        table.removeTeam(team1);
-        assertTrue(table.getTeams().isEmpty());
-        table.addTeams(team2, team3);
-        table.removeTeam(team3);
-        assertEquals(team2, table.iterator().next());
-    }
-
-    @Test
-    public void testIndexOf() {
-        table.addTeams(team1, team2);
-        assertEquals(0, table.indexOf(team1));
-        assertEquals(1, table.indexOf(team2));
-    }
-
-    @Test
-    public void testMoveTeam() {
+    public void testSortTable() {
         table.addTeams(team1, team2, team3);
-        table.moveTeam(team1, 1);
-        assertEquals(1, table.indexOf(team1));
-        assertEquals(0, table.indexOf(team2));
+        int i = 100;
+        for (Team team : table.getTeams()) {
+            assertTrue(i >= team.getPoints());
+            i = team.getPoints();
+        }
     }
 
     @Test
