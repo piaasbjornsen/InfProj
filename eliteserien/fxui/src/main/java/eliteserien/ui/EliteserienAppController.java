@@ -3,12 +3,15 @@ package eliteserien.ui;
 import java.io.IOException;
 
 import eliteserien.core.Table;
-import eliteserien.core.TableListener;
 import eliteserien.core.Team;
 import eliteserien.json.TablePersistence;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
 import javafx.util.Callback;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 
 /**
@@ -20,7 +23,6 @@ import javafx.util.Callback;
  * 
  * FXML attributes:
  * filename: contains json-filename.
- * tableText: contains the Table object as textarea.
  * 
  * Methods:
  * 
@@ -35,13 +37,13 @@ import javafx.util.Callback;
  * SaveTable: saves the Table Object as json-file in user.home folder. 
  * 
  * Getters and setters for table object.
- * setTableText method sets the table as a text using the toString method in Table class.
- * updateView sets tableText for now.
+ * setTableView method puts all teams in to the TableView area.
+ * updateView sets tableView for now.
  * 
  * Initialize method: 
  * use setTable method with input getInitialTable.
  * The setTable method also calls the updateView method so 
- * that the TextArea attribute contains the initialTable.
+ * that the tableView attribute contains the initialTable.
  * For testing: adding 1 point to each team and saving result 
  * in json-file in user.home folder.
  * 
@@ -54,10 +56,19 @@ public class EliteserienAppController {
     String fileName;
 
     @FXML
-    TextArea tableText;
+    private TableView<Team> tableView = new TableView<Team>();
+
+    @FXML
+    private TableColumn<Team, String> teamsColumn = new TableColumn<Team, String>();
+
+    @FXML
+    private TableColumn<Team, Integer> pointsColumn = new TableColumn<Team, Integer>();
+
 
     private TablePersistence tablePersistence = new TablePersistence();
     private Table table;
+    
+    private ObservableList<Team> teams = FXCollections.observableArrayList();
 
     private Table getInitialTable() {
         Table table = null;
@@ -97,12 +108,20 @@ public class EliteserienAppController {
         updateView();
     }
 
-    protected void setTableText() {
-        tableText.setText(table.toString());
+    protected void setTableView() {
+        tableView.setItems(teams);
     }
 
     protected void updateView() {
-        setTableText();
+        updateTeamsList();
+        setTableView();
+    }
+
+    private void updateTeamsList() {
+        teams.clear();
+        for (Team team : table.getTeams()) {
+            teams.add(team);
+        }
     }
 
     public void addTeamPoints(Team team, int i) {
@@ -112,6 +131,8 @@ public class EliteserienAppController {
 
     @FXML
     void initialize() {
+        teamsColumn.setCellValueFactory(new PropertyValueFactory<Team, String>("name"));
+        pointsColumn.setCellValueFactory(new PropertyValueFactory<Team, Integer>("points"));
         setTable(getInitialTable());
         for (Team team : table.getTeams()) {
             addTeamPoints(team, 1);
