@@ -1,0 +1,16 @@
+{
+    "Table": [
+        {
+            "teamname": "GLIMT",
+            "points": 10
+        },
+        {
+            "teamname": "MOLDE",
+            "points": 8
+        },
+        {
+            "teamname": "ROSENBORG",
+            "points": 6
+        }
+    ]
+}
