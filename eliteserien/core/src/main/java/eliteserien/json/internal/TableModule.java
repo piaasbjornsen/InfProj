@@ -6,7 +6,6 @@ import eliteserien.core.Table;
 
 /**
  * A Jackson module for reading and writing to json-files.
- * TableModule constructor adds the Serializer and DeSerializer for Table objects.
  */
 
 
@@ -14,6 +13,10 @@ import eliteserien.core.Table;
 public class TableModule extends SimpleModule {
     
     private static final String NAME = "TableModule";
+
+    /**
+     * Constructor: Adds the Serializer and Deserializer for Table objects.
+     */
     
     public TableModule() {
         super(NAME, Version.unknownVersion());

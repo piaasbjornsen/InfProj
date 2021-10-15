@@ -15,21 +15,10 @@ import eliteserien.core.Team;
 import eliteserien.core.Table;
 
  /*
-   * TableDeserializer: reads json files with Table format and returns a Table object containting the
-   * Team objects as described in the json file. 
-   */
-
-   /*
-   * format: { "Table": [ {"teamname": , "points": }, ... ] }
-   * 
-   * deserialize method:
-   * treeNode input is the content in the json-file
-   * A empty Table object is made.
-   * tableNode contains the data in the "Table" array as described in the json-file (Team name and points)
-   * A Team object is made for all elements in the Table array with a for-loop.
-   * The Team objects is then added to the Table object.
-   * The Table object is returned.
-   */
+   * TableDeserializer: 
+   * Reads json files with Table format 
+   * Returns a Table object containting the Team objects as described in the json file. 
+  */
 
 class TableDeserializer extends JsonDeserializer<Table> {
 
@@ -40,6 +29,19 @@ class TableDeserializer extends JsonDeserializer<Table> {
     return deserialize((JsonNode) treeNode);
   }
 
+  /**
+   * Deseialize method: 
+   * treeNode input is the content in the json-file
+   * Content has format: { "Table": [ {"teamname": , "points": }, ... ] }
+   * A empty Table object is made.
+   * tableNode contains the data in the "Table" array as described in the json-file (Team name and points)
+   * A Team object is made for all elements in the Table array with a for-loop.
+   * The Team objects is then added to the Table object.
+   * The Table object is returned.
+   * @param content in the json-file (JsonNode treeNode)
+   * @return the Table object
+  */
+  
   Table deserialize(JsonNode treeNode) {
     if (treeNode instanceof ObjectNode objectNode) {
       Table table = new Table();
