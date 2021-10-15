@@ -1,0 +1,68 @@
+{
+    "Table": [
+        {
+            "teamname": "GLIMT",
+            "points": 41
+        },
+        {
+            "teamname": "MOLDE",
+            "points": 38
+        },
+        {
+            "teamname": "ROSENBORG",
+            "points": 37
+        },
+        {
+            "teamname": "KRISTIANSUND",
+            "points": 35
+        },
+        {
+            "teamname": "VIKING",
+            "points": 35
+        },
+        {
+            "teamname": "LILLESTROM",
+            "points": 34
+        },
+        {
+            "teamname": "STROMSGODSET",
+            "points": 29
+        },
+        {
+            "teamname": "HAUGESUND",
+            "points": 28
+        },
+        {
+            "teamname": "VALERENGA",
+            "points": 27
+        },
+        {
+            "teamname": "ODD",
+            "points": 26
+        },
+        {
+            "teamname": "SANDEFJORD",
+            "points": 25
+        },
+        {
+            "teamname": "SARPSBORG",
+            "points": 23
+        },
+        {
+            "teamname": "TROMSO",
+            "points": 19
+        },
+        {
+            "teamname": "BRANN",
+            "points": 17
+        },
+        {
+            "teamname": "STABAEK",
+            "points": 17
+        },
+        {
+            "teamname": "MJONDALEN",
+            "points": 14
+        }
+    ]
+}
