@@ -17,12 +17,12 @@ import eliteserien.core.Table;
 import eliteserien.json.internal.TableModule;
 
 /**
- * Persistence class for json-file reading and writing. 
- * ReadInitialTable method reads the json-file in resource folder with initial teams and values.
+ * Persistence class for json-file reading and writing. ReadInitialTable method
+ * reads the json-file in resource folder with initial teams and values.
  * ReadTable and saveTable methods uses Table.json-file from user.home folder.
- * The Table.json file in user.home folder can then be modified while program is running.
+ * The Table.json file in user.home folder can then be modified while program is
+ * running.
  */
-
 
 public class TablePersistence {
 
@@ -32,8 +32,7 @@ public class TablePersistence {
 
   public TablePersistence() {
     TableModule tableModule = new TableModule();
-    mapper = new ObjectMapper()
-    .registerModule(tableModule);
+    mapper = new ObjectMapper().registerModule(tableModule);
   }
 
   public void setFileName(String fileName) {
@@ -56,14 +55,13 @@ public class TablePersistence {
       InputStream inputStream = this.getClass().getResourceAsStream(fileName);
       InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
       return readTable(reader);
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       System.out.println("Could not load Table from" + fileName);
     }
     return new Table();
   }
 
-    /**
+  /**
    * Should load a Table from the saved file (fileName) in the user.home folder
    *
    * @return the loaded Table
@@ -73,10 +71,10 @@ public class TablePersistence {
     setFileName(fileName);
     setFilePath();
     try (Reader reader = new FileReader(filePath.toFile(), StandardCharsets.UTF_8)) {
-        return readTable(reader);
+      return readTable(reader);
     }
   }
-  
+
   public Table readTable(Reader reader) throws IOException {
     return mapper.readValue(reader, Table.class);
   }
@@ -85,7 +83,7 @@ public class TablePersistence {
     mapper.writerWithDefaultPrettyPrinter().writeValue(writer, table);
   }
 
-    /**
+  /**
    * Should save the input table as a json-file in user.home folder.
    *
    * 

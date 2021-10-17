@@ -9,6 +9,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.cell.*?> 
+<?import javafx.collections.*?> 
+<?import fxmltableview.*?> 
 <?import java.lang.String?>
 
 
@@ -17,11 +20,11 @@
       <fx:define>
         <String fx:id="fileName" fx:value="Table.json"/>
       </fx:define>
-      <TableView fx:id="TableView" layoutY="40.0" prefHeight="254.0" prefWidth="316.0" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
-        <columns>
-          <TableColumn fx:id="TeamColumn" prefWidth="197.56046748161316" text="Team" />
-          <TableColumn fx:id="WinsColumn" minWidth="4.0" prefWidth="116.99998474121094" text="Wins" />
-        </columns>
+      <TableView fx:id="tableView" layoutY="40.0" prefHeight="254.0" prefWidth="316.0" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+         <columns>
+            <TableColumn fx:id="teamsColumn" prefWidth="197.56046748161316" text="TeamName"/>
+            <TableColumn fx:id="pointsColumn" minWidth="4.0" prefWidth="116.99998474121094" text="Points"/>
+         </columns>
       </TableView>
       <Label layoutX="9.0" layoutY="8.0" text="Eliteserien">
          <font>
