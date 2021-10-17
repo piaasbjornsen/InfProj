@@ -11,7 +11,7 @@ public class TeamTest {
 
     @BeforeEach
     public void setUp() {
-        this.team1 = new Team();
+        this.team1 = new Team("ARK", 0);
         this.team2 = new Team("LSK", 5);
     }
 
@@ -26,7 +26,8 @@ public class TeamTest {
 
     @Test
     public void testSetPoints() {
-        team1.setPoints(3);;
+        team1.setPoints(3);
+        ;
         assertEquals(3, team1.getPoints());
         assertEquals(5, team2.getPoints());
         team2.setPoints(7);
@@ -41,7 +42,4 @@ public class TeamTest {
         team2.addPoints(2);
         assertEquals(7, team2.getPoints());
     }
-
-    // TODO: make test for isValidName method when method is implemented.
-    
 }

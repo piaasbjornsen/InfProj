@@ -8,7 +8,6 @@ import eliteserien.json.TablePersistence;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.util.Callback;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ChoiceBox;
@@ -58,54 +57,54 @@ public class EliteserienAppController{
     String fileName;
 
     @FXML
-    private TableView<Team> tableView = new TableView<Team>();
+    TableView<TeamProperties> tableView;
 
     @FXML
-    private TableColumn<Team, String> teamsColumn = new TableColumn<Team, String>();
+    TableColumn<TeamProperties, String> teamsColumn;
 
     @FXML
-    private TableColumn<Team, Integer> pointsColumn = new TableColumn<Team, Integer>();
+    TableColumn<TeamProperties, String> pointsColumn;
 
     @FXML
-    private ChoiceBox<String> home;
+    ChoiceBox<String> home;
 
     @FXML
-    private ChoiceBox<String> away;
+    ChoiceBox<String> away;
 
     @FXML
-    private TextField pointsH;  //points home team
+    TextField pointsH;  //points home team
 
     @FXML
-    private TextField pointsA;  //points away team
+    TextField pointsA;  //points away team
 
     @FXML
-    private Button saveButton;  //save match button
+    Button saveButton;  //save match button
 
     @FXML
-    private TextField message;  //text field for error messages to user
+    TextField message;  //text field for error messages to user
 
 
     private TablePersistence tablePersistence = new TablePersistence();
     private Table table;
     
-    private ObservableList<Team> teams = FXCollections.observableArrayList();   //for tableView
+    private ObservableList<TeamProperties> teams = FXCollections.observableArrayList();   //for tableView
 
 
     private Table getInitialTable() {
-        Table table = null;
+        Table initialTable = null;
         try {
-            table = tablePersistence.loadInitialTable(fileName);
+            initialTable = tablePersistence.loadInitialTable(fileName);
         } catch (IOException e) {
             System.err.println("Could not read initial table");
         }
-        return table;
+        return initialTable;
     }
 
     public Table getSavedTable() {
-        Table table = null;
+        Table savedTable = null;
         try {
-            table = tablePersistence.loadSavedTable(fileName);
-            return table;
+            savedTable = tablePersistence.loadSavedTable(fileName);
+            return savedTable;
         } catch (IOException e) {
             System.err.println("Could not read saved table");
         }
@@ -121,12 +120,24 @@ public class EliteserienAppController{
     }
 
     public Table getTable() {
-        return table;
+        Table getTable = new Table();
+        for (Team team : table.getTeams()) {
+            getTable.addTeams(team);
+        }
+        return getTable;
     }
 
     public void setTable(Table table) {
         this.table = table;
-        updateView();
+    }
+
+    private void updateTeamsList() {            //update the observable list of teams to match the teams in table
+        teams.clear();
+        for (Team team : table.getTeams()) {
+            String name = team.getName();
+            String points = Integer.toString(team.getPoints());
+            teams.add(new TeamProperties(name, points));
+        }
     }
 
     protected void setTableView() {
@@ -138,12 +149,6 @@ public class EliteserienAppController{
         setTableView();
     }
 
-    private void updateTeamsList() {               //update the observable list of teams to match the teams in table
-        teams.clear();
-        for (Team team : table.getTeams()) {
-            teams.add(team);
-        }
-    }
 
     private void setChoices(){                     //set choices for the choice boxes
         for (Team team : table.getTeams()){        //only called on once in initialize because the app does not support adding teams
@@ -195,24 +200,23 @@ public class EliteserienAppController{
         away.setValue(null);
         pointsH.clear();
         pointsA.clear();
+        updateTeamsList();
+        updateView();
+        saveTable();
     } 
 
-    public void addTeamPoints(Team team, int i) {
+    private void addTeamPoints(Team team, int i) {
         team.addPoints(i);
-        updateView();
     }
 
     @FXML
     public void initialize() {
-        setTable(getInitialTable());
-
-        teamsColumn.setCellValueFactory(new PropertyValueFactory<Team, String>("name"));
-        pointsColumn.setCellValueFactory(new PropertyValueFactory<Team, Integer>("points"));
-        
-        for (Team team : table.getTeams()) {
-            addTeamPoints(team, 1);
-        }
-        saveTable();
+        setTable(getSavedTable());
+        updateTeamsList();
+        setTableView();
+        teamsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("name"));
+        pointsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("points"));
+        updateView();
         setChoices();
     }
 }
