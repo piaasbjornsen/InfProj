@@ -23,9 +23,9 @@ public class TableTest {
     @BeforeEach
     public void setUp() {
         table = new Table();
-        team1 = table.createTeam("RBK", 12);
-        team2 = table.createTeam("GLIMT", 13);
-        team3 = table.createTeam("MOLDE", 10);
+        team1 = new Team("RBK", 12);
+        team2 = new Team("GLIMT", 13);
+        team3 = new Team("MOLDE", 10);
     }
 
     /**
@@ -45,6 +45,12 @@ public class TableTest {
      * Checks then that the team in the table is the same as we wanted to add (team1), by comparing their name and points
      * Then adds two more teams, and check if the table now has 3 teams
     */
+
+    @Test
+    public void testSetName() {
+        table.setName("Skoleturnering");
+        assertEquals("Skoleturnering", table.getName());
+    }
 
     @Test
     public void testAddTeam() {
@@ -81,6 +87,6 @@ public class TableTest {
 
     @Test
     public void testGetTeams_emptyList() {
-      assertTrue(table.getTeams().isEmpty());
+        assertTrue(table.getTeams().isEmpty());
     }
 }

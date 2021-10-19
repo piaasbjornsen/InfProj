@@ -7,8 +7,10 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+<<<<<<< eliteserien/core/src/main/java/eliteserien/core/Table.java
  * Table class for core data to Tippeligaen table.
 */
+
 
 public class Table {
 
@@ -29,21 +31,6 @@ public class Table {
         addTeams(teams);
     }
 
-    /**
-     * toString-method: Shows the teams in the list and their points.
-     * Each teams should preferable be a TableView object rather than  a string
-     * @return list of team strings
-    */
-
-    @Override
-    public String toString() {
-        String teamListString = "";
-        for (Team team : teams) {
-            teamListString = teamListString.concat(team.toString());
-            teamListString = teamListString.concat("\n");
-        }
-        return teamListString;
-    }
 
     /** 
     * getName: Returns name of table (Eliteserien)
@@ -73,20 +60,12 @@ public class Table {
     }
 
     /** 
-    * createTeam: Creates a Tableteam object (extends Team)
-    * @param team name, points
-    * @return a new TableTeam object
-    */
-
-    public Team createTeam(String name, int points) {
-        return new TableTeam(name, points);
-    }
-
-    /** 
     * sortTable: uses the TeamComparator class and built-in sorting functions for Collections
     * to sort teams in table by numbers. Team with most points gets placed first in the list. 
     */
 
+=======
+>>>>>>> eliteserien/core/src/main/java/eliteserien/core/Table.java
     private void sortTable() {
         Collections.sort(this.teams, new TeamComparator());
     }
@@ -100,16 +79,7 @@ public class Table {
 
     public void addTeams(Team... teams) throws IllegalStateException {
         for (Team team : teams) {
-            TableTeam tableTeam = null;
-            if (team instanceof TableTeam tt) {
-                tableTeam = tt;
-            } else {
-                tableTeam = new TableTeam(team.getName(), team.getPoints());
-            }
-            if (tableTeam.getTable() != this) {
-                throw new IllegalStateException("TableTeam does not belong to this list Table");
-            }
-            this.teams.add(tableTeam);
+            this.teams.add(team);
             sortTable();
         }
     }
@@ -133,22 +103,5 @@ public class Table {
             teamcollection.add(team);
         }
         return teamcollection;
-    }
-
-    /**
-    * private class TableTeam: is an extention of the Team class 
-    * and is implemented to tell the table object and the listeners of this object 
-    * that the table has changed when the attributes of the team is changed.
-    */
-
-    private class TableTeam extends Team {
-
-        public TableTeam(String name, int points) {
-            super(name, points);
-        }
-
-        Table getTable() {
-            return Table.this;
-        }
     }
 }

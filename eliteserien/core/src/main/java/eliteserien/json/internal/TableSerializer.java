@@ -8,6 +8,10 @@ import java.io.IOException;
 import eliteserien.core.Team;
 import eliteserien.core.Table;
 
+/*
+  * TableSerializer: takes a Table object as input and adds the object to a json-file in the
+  * format as described.
+  */
 
  /**
   * TableSerializer: Serializer for Table objects

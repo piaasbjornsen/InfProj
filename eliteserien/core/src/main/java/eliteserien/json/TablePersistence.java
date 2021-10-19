@@ -22,7 +22,6 @@ import eliteserien.json.internal.TableModule;
  * ReadInitialTable method reads the json-file in resource folder with initial teams and values.
  */
 
-
 public class TablePersistence {
 
   private ObjectMapper mapper;  // Provides functionality for reading and writing JSON
@@ -36,8 +35,7 @@ public class TablePersistence {
 
   public TablePersistence() {
     TableModule tableModule = new TableModule();
-    mapper = new ObjectMapper()
-    .registerModule(tableModule);
+    mapper = new ObjectMapper().registerModule(tableModule);
   }
 
   /**
@@ -70,8 +68,7 @@ public class TablePersistence {
       InputStream inputStream = this.getClass().getResourceAsStream(fileName);
       InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
       return readTable(reader);
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       System.out.println("Could not load Table from" + fileName);
     }
     return new Table();
@@ -88,7 +85,7 @@ public class TablePersistence {
     setFileName(fileName);
     setFilePath();
     try (Reader reader = new FileReader(filePath.toFile(), StandardCharsets.UTF_8)) {
-        return readTable(reader);
+      return readTable(reader);
     }
   }
   

@@ -8,10 +8,9 @@ import eliteserien.core.Table;
  * A Jackson module for reading and writing to json-files.
  */
 
-
 @SuppressWarnings("serial")
 public class TableModule extends SimpleModule {
-    
+
     private static final String NAME = "TableModule";
 
     /**

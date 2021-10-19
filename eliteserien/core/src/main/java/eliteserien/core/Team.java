@@ -1,10 +1,11 @@
 package eliteserien.core;
 
 /**
+<<<<<<< eliteserien/core/src/main/java/eliteserien/core/Team.java
  * Team class for core data of football teams in Tippeligaen
 */
 
-public class Team{
+public class Team {
 
     /**
     * Attributes: name and points
@@ -14,32 +15,16 @@ public class Team{
     private int points;
 
     /** 
-    * Empty contructor: Creates a football team with name: "", points: 0
-    */
-    public Team(){
-    }
-
-    /** 
     * Constructor: Creates a football team accoring to input name and input points
     * @param football team name
     * @param points
     */
 
+=======
+>>>>>>> eliteserien/core/src/main/java/eliteserien/core/Team.java
     public Team(String name, int points) {
         this.name = name;
         this.points = points;
-    }
-
-    /**
-    * toString: Returns a string of the team: "name, points"
-    * This is not optimal, since team should be a TableView object so the data is not static
-    * @return "team name, points"
-    */
-
-    @Override
-    public String toString() {
-        String teamString = getName() + ", " + getPoints();
-        return teamString;
     }
 
     /**
@@ -47,10 +32,13 @@ public class Team{
     * @return Name of football team
     */
 
+=======
+>>>>>>> eliteserien/core/src/main/java/eliteserien/core/Team.java
     public String getName() {
         return name;
     }
 
+<<<<<<< eliteserien/core/src/main/java/eliteserien/core/Team.java
     /**
     * setName: Sets name of Team object
     * @param name of football team
