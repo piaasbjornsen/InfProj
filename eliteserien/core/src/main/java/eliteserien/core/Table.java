@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
-<<<<<<< eliteserien/core/src/main/java/eliteserien/core/Table.java
  * Table class for core data to Tippeligaen table.
 */
 
@@ -64,8 +63,6 @@ public class Table {
     * to sort teams in table by numbers. Team with most points gets placed first in the list. 
     */
 
-=======
->>>>>>> eliteserien/core/src/main/java/eliteserien/core/Table.java
     private void sortTable() {
         Collections.sort(this.teams, new TeamComparator());
     }

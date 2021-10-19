@@ -1,7 +1,6 @@
 package eliteserien.core;
 
 /**
-<<<<<<< eliteserien/core/src/main/java/eliteserien/core/Team.java
  * Team class for core data of football teams in Tippeligaen
 */
 
@@ -20,8 +19,6 @@ public class Team {
     * @param points
     */
 
-=======
->>>>>>> eliteserien/core/src/main/java/eliteserien/core/Team.java
     public Team(String name, int points) {
         this.name = name;
         this.points = points;
@@ -32,13 +29,10 @@ public class Team {
     * @return Name of football team
     */
 
-=======
->>>>>>> eliteserien/core/src/main/java/eliteserien/core/Team.java
     public String getName() {
         return name;
     }
 
-<<<<<<< eliteserien/core/src/main/java/eliteserien/core/Team.java
     /**
     * setName: Sets name of Team object
     * @param name of football team
