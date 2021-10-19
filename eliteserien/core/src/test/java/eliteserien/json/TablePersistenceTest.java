@@ -11,10 +11,18 @@ import org.junit.jupiter.api.Test;
 import eliteserien.core.Table;
 import eliteserien.core.Team;
 
+/**
+ * Class for testing methods in TablePersistence class
+*/
+
 public class TablePersistenceTest {
     private TablePersistence tablePersistence;
     private Table table;
     private Team team;
+
+    /**
+     * Before each test, SetUp creates the tablePersistence, the team and the table that we want to use in them
+    */
 
     @BeforeEach
     public void SetUp() {
@@ -22,6 +30,12 @@ public class TablePersistenceTest {
         team = new Team("STK", 2);
         table = new Table();
     }
+
+    /**
+     * Test for loadInitialTable method
+     * Tries to load a table from a json file containing a table for testing
+     * Then checks that the loading works by checking if the table contains expected teams with correct names and points
+    */
 
     @Test
     public void testLoadInitialTable() {
@@ -34,6 +48,14 @@ public class TablePersistenceTest {
             fail();
         }
     }
+
+    /**
+     * Test for saveAndLoadTable method
+     * Adds a team to table
+     * Saves table to a json file
+     * Then loads contents from json file into a new table
+     * Then compares the two tables, to see if the saving and loading of the table worked as expected
+    */
 
     @Test
     public void testSaveAndLoadTable() {
