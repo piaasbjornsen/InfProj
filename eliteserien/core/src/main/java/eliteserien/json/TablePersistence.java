@@ -64,14 +64,9 @@ public class TablePersistence {
 
   public Table loadInitialTable(String fileName) throws IOException {
     setFileName(fileName);
-    try {
-      InputStream inputStream = this.getClass().getResourceAsStream(fileName);
-      InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-      return readTable(reader);
-    } catch (IOException e) {
-      System.out.println("Could not load Table from" + fileName);
-    }
-    return new Table();
+    InputStream inputStream = this.getClass().getResourceAsStream(fileName);
+    InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+    return readTable(reader);
   }
 
   /**
@@ -123,8 +118,6 @@ public class TablePersistence {
     setFilePath();
     try (Writer writer = new FileWriter(filePath.toFile(), StandardCharsets.UTF_8)) {
       writeTable(table, writer);
-    } catch (IOException e) {
-      System.out.println("Could not save table");
-    }
+    } 
   }
 }
