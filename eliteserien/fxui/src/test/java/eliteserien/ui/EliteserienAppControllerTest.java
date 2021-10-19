@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -46,6 +47,7 @@ public class EliteserienAppControllerTest extends ApplicationTest {
             fail("Could not load json test-file.");
         }
         table = controller.getTable();
+        controller.saveTable();
         assertNotNull(table);
         assertFalse(table.getTeams().isEmpty());
     }
@@ -62,16 +64,8 @@ public class EliteserienAppControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void testSaveTable() {
-        try {
-            tablePersistence.saveTable(table, "test-Table.json");
-        } catch (IOException e) {
-            System.err.println("could not save table");
-        }
-    }
-
-    @Test
-    public void testAddPoints() {
+    public void testHandleSave() {
+        // adding 3 points to first team in table (GLIMT)
         clickOn("#home");
         interact(() -> {
             controller.home.getSelectionModel().select(0);
@@ -83,6 +77,8 @@ public class EliteserienAppControllerTest extends ApplicationTest {
         clickOn("#pointsA").write("0");
         clickOn("#pointsH").write("3");
         clickOn("#saveButton");
+
+        // checking if the points have been added in GLIMT-team
         table = controller.getTable();
         for (Team team : table.getTeams()) {
             if (team.getName().equals("GLIMT")) {
@@ -92,5 +88,82 @@ public class EliteserienAppControllerTest extends ApplicationTest {
                 assertEquals(10, team.getPoints());
             }
         }
+
+        // Adding same team for home and away.
+        // Should catch exception and write message to user.
+        clickOn("#home");
+        interact(() -> {
+            controller.home.getSelectionModel().select(0);
+        });
+        clickOn("#away");
+        interact(() -> {
+            controller.away.getSelectionModel().select(0);
+        });
+        clickOn("#pointsH").write("1");
+        clickOn("#saveButton");
+        assertEquals("Choose two different teams", controller.message.getText());
+        for (Team team : table.getTeams()) {
+            if (team.getName().equals("GLIMT")) {
+                assertEquals(13, team.getPoints());
+            }
+        }
+
+        // Trying to write invalid points to teams
+        // Should catch exception and write message to user.
+        clickOn("#home");
+        interact(() -> {
+            controller.home.getSelectionModel().select(0);
+        });
+        clickOn("#away");
+        interact(() -> {
+            controller.away.getSelectionModel().select(2);
+        });
+        clickOn("#pointsA").write("-3");
+        clickOn("#saveButton");
+        assertEquals("Invalid points", controller.message.getText());
+        for (Team team : table.getTeams()) {
+            if (team.getName().equals("ROSENBORG")) {
+                assertEquals(10, team.getPoints());
+            }
+        }
+    }
+
+    @Test
+    public void testSavingAndReadingTable() {
+        // saving testTable with one team to file in homefolder. 
+        Table testTable = new Table(new Team("TEST", 100));
+        controller.setTable(testTable);
+        controller.saveTable();
+
+        // reading the testTable from file in homefolder and 
+        // testing if it contain the test team with correct properties.
+        Table savedTestTable = controller.getSavedTable();
+        assertTrue(savedTestTable.iterator().hasNext());
+        Team testTeam = savedTestTable.iterator().next();
+        assertEquals("TEST", testTeam.getName());
+        assertEquals(100, testTeam.getPoints());
+
+        // setting the controller table to the original test table from json-file again. 
+        controller.setTable(table); 
+        controller.saveTable();
+
+        //checking if the saved table in controller is correct, testing the first team in list.
+        Table originalTable = controller.getTable();
+        assertTrue(originalTable.iterator().hasNext());
+        Team originalFirstTeam = originalTable.iterator().next();
+        assertEquals("GLIMT", originalFirstTeam.getName());
+        assertEquals(10, originalFirstTeam.getPoints());
+    }
+
+    @AfterEach
+    public void cleanUp() {
+        try {
+            Reader reader = new InputStreamReader(getClass().getResourceAsStream("test-Table.json"));
+            this.controller.setTable(tablePersistence.readTable(reader));
+        } catch (IOException e) {
+            fail("Could not load json test-file.");
+        }
+        table = controller.getTable();
+        controller.saveTable();
     }
 }
