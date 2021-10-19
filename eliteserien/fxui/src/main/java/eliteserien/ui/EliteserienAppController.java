@@ -149,7 +149,6 @@ public class EliteserienAppController{
         setTableView();
     }
 
-
     private void setChoices(){                     //set choices for the choice boxes
         for (Team team : table.getTeams()){        //only called on once in initialize because the app does not support adding teams
            home.getItems().add(team.getName());

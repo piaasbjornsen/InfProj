@@ -13,11 +13,22 @@ import eliteserien.core.Table;
   * format as described.
   */
 
-/*
-* format: { "Table": [ {"teamname": , "points": }, ... ] }
-*/
+ /**
+  * TableSerializer: Serializer for Table objects
+  */
 
 class TableSerializer extends JsonSerializer<Table> {
+
+  /**
+   * Serialize:
+   * Takes a Table object as input
+   * Adds the object to a json-file in this format:
+   * format: { "Table": [ {"teamname": , "points": }, ... ] }
+   * @param Table object
+   * @param JsonGenerator
+   * @param SerializerProvider
+   * @throws IOException
+  */
 
   @Override
   public void serialize(Table table, JsonGenerator jsonGen, SerializerProvider serializerProvider) throws IOException {

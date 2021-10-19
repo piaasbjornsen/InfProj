@@ -5,15 +5,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Class for testing the methods in the Team class
+ */
+
 public class TeamTest {
     private Team team1;
     private Team team2;
+
+    /**
+     * Before each test, SetUp creates the table and the teams that we want to use in them
+    */
 
     @BeforeEach
     public void setUp() {
         this.team1 = new Team("ARK", 0);
         this.team2 = new Team("LSK", 5);
     }
+
+    /**
+     * Test for setTeamName method
+     * Uses setName method to set names to the teams from setUp
+     * Then compares the name to the teams with the name we gave them 
+    */
 
     @Test
     public void testSetTeamName() {
@@ -24,6 +38,12 @@ public class TeamTest {
         assertEquals("GLIMT", team2.getName());
     }
 
+    /**
+     * Test for setPoints method
+     * Uses setPoints method to set points to the teams from setUp
+     * Then compares the points to the teams with the point we gave them
+    */
+
     @Test
     public void testSetPoints() {
         team1.setPoints(3);
@@ -33,6 +53,12 @@ public class TeamTest {
         team2.setPoints(7);
         assertEquals(7, team2.getPoints());
     }
+
+    /**
+     * Test for addPoints methos
+     * Uses addPints method to add points to the teams from setUp
+     * Then compares the points to the teams with the point we gave them
+    */
 
     @Test
     public void testAddPoints() {

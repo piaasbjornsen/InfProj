@@ -1,38 +1,71 @@
 package eliteserien.core;
 
 /**
- * Core data of football teams Attributes: name and points Constructor: one with
- * empty input(gives a football team with name: "", points: 0), and one with
- * input name and points. Methods: getters and setters and addPoints.
- */
+ * Team class for core data of football teams in Tippeligaen
+*/
 
 public class Team {
 
+    /**
+    * Attributes: name and points
+    */
+
     private String name;
     private int points;
+
+    /** 
+    * Constructor: Creates a football team accoring to input name and input points
+    * @param football team name
+    * @param points
+    */
 
     public Team(String name, int points) {
         this.name = name;
         this.points = points;
     }
 
+    /**
+    * getName: Returns name of Team object
+    * @return Name of football team
+    */
+
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    /**
+    * setName: Sets name of Team object
+    * @param name of football team
+    */
+
+    public void setName(String name){
         this.name = name;
     }
 
-    public int getPoints() {
+    /** 
+    * getPoints: Returns number of points (int) of Team object
+    * @return points (int)
+    */
+
+    public int getPoints(){
         return points;
     }
 
-    public void setPoints(int points) {
+    /**
+    * setPoints: Sets number of points to a Team object
+    * @param points (int)
+    */
+
+    public void setPoints(int points){
         this.points = points;
     }
 
-    public void addPoints(int points) {
+    /** 
+    * addPoints: Adds points to a Team object. Already existing points + new points
+    * @param points (int)
+    */
+
+    public void addPoints(int points){
         this.points += points;
     }
 }
