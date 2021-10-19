@@ -6,7 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Standalone version of the app
+*/
+
 public class EliteserienApp extends Application {
+
+  /**
+   * Loads the fxml file for the app and creates window/stage for it
+  */
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -15,6 +23,9 @@ public class EliteserienApp extends Application {
     stage.show();
   }
 
+  /**
+   * Launches the App
+  */
   public static void main(String[] args) {
     launch(EliteserienApp.class, args);
   }
