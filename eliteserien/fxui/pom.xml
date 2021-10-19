@@ -38,8 +38,9 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>16</version>
+            <version>18-ea+4</version>
         </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/de.jensd/fontawesomefx-controls -->
         <dependency>
