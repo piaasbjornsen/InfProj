@@ -308,8 +308,8 @@ public class EliteserienAppController{
 
     @FXML
     public void handleSave2(){
+        saveTable();
         Stage stage = (Stage) testButton2.getScene().getWindow();
-    // do what you have to do
         stage.close();
     }
 
@@ -330,6 +330,7 @@ public class EliteserienAppController{
         }
         Team team = new Team(teamName, points);
         table.addTeams(team);
+        saveTable();
 
         editTeamName.clear();
         editTeamPoints.clear();
@@ -338,17 +339,41 @@ public class EliteserienAppController{
 
     @FXML
     public void handleEditTeam(){
-        
+        if(selectedTeam.getText() != ""){
+            editTeamName.setText(selectedTeam.getText());
+            for (Team team : table.getTeams()){
+                if (selectedTeam.getText().equals(team.getName())){
+                    editTeamPoints.setText(String.valueOf(team.getPoints()));
+                    table.deleteTeam(team);
+                }
+            }
+            updateEditView();
+            selectedTeam.clear();
+        }
     }
 
     @FXML
     public void handleDeleteTeam(){
-        
+        if(selectedTeam.getText() != ""){
+            for (Team team : table.getTeams()){
+                if (selectedTeam.getText().equals(team.getName())){
+                    table.deleteTeam(team);
+                }
+            }
+            updateEditView();
+            selectedTeam.clear();
+        }
+    }
+
+    @FXML
+    public void handleLoad(){
+        setTable(getSavedTable());
+        updateView();
     }
 
     @FXML
     void handleSelectedTeamChanged(){
-        selectedTeam.setText(editTableView.getSelectionModel().getSelectedItem().toString());
+        selectedTeam.setText(editTableView.getSelectionModel().getSelectedItem().getName());
     }
 
     protected void setEditTableView() {
@@ -370,6 +395,8 @@ public class EliteserienAppController{
         pointsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("points"));
         updateView();
         setChoices();
+        } catch(Exception e){}
+        try{
         editTeamColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("name"));
         editPointsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("points"));
         updateEditView();

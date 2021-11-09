@@ -81,6 +81,10 @@ public class Table {
         }
     }
 
+    public void deleteTeam(Team team){
+        teams.remove(team);
+    }
+
     /**
     * iterator: Iterates through all teams in Table. 
     * @return iterator
