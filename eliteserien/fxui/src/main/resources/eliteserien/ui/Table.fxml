@@ -68,6 +68,11 @@
             <Font size="11.0" />
          </font>
       </Button>
+      <Button fx:id="testButton" layoutX="242.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleEdit" prefHeight="26.0" prefWidth="70.0" text="Edit table">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
       <TextField fx:id="message" editable="false" layoutX="4.0" layoutY="383.0" prefHeight="23.0" prefWidth="160.0">
          <font>
             <Font size="12.0" />

@@ -8,12 +8,16 @@ import eliteserien.json.TablePersistence;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * Controller class
@@ -52,8 +56,34 @@ public class EliteserienAppController{
 
     @FXML
     TextField message;     // Text field for error messages to user
+
+    @FXML
+    Button testButton;
+
+    @FXML
+    Button testButton2;
+
+    @FXML
+    TableView<TeamProperties> editTableView;
+
+    @FXML
+    TableColumn<TeamProperties, String> editTeamColumn;
+
+    @FXML
+    TableColumn<TeamProperties, String> editPointsColumn;
+
+    @FXML
+    TextField selectedTeam;
+
+    @FXML
+    TextField editTeamName;
+
+    @FXML
+    TextField editTeamPoints;
     
-    
+    @FXML
+    TextField errorMessageEditWindow;
+
     /**
      * Attributes: 
      * Tablepersistence object for reading and writing to json-file.
@@ -263,13 +293,86 @@ public class EliteserienAppController{
     */
 
     @FXML
+    public void handleEdit(){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditTable.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (Exception e) {
+            message.setText("Unable to load edit window");
+        }
+
+    }
+
+    @FXML
+    public void handleSave2(){
+        Stage stage = (Stage) testButton2.getScene().getWindow();
+    // do what you have to do
+        stage.close();
+    }
+
+    @FXML
+    public void handleAddTeam(){
+        errorMessageEditWindow.clear();
+        String teamName = editTeamName.getText();        // Extract input from choice boxes
+        int points = 0;                       // Set points 0
+        try {
+            if(editTeamPoints.getText() != ""){          // If points field is not empty try parseInt (if empty: points will stay 0)
+                points = Integer.parseInt(editTeamPoints.getText());
+            }
+            validPoints(points);             // Check if points are valid (positive numbers only)
+        }
+        catch(IllegalArgumentException e){       // Exception thrown if points is not int or points<0
+            errorMessageEditWindow.setText("Invalid points");   // Rrint error message to user
+            return;
+        }
+        Team team = new Team(teamName, points);
+        table.addTeams(team);
+
+        editTeamName.clear();
+        editTeamPoints.clear();
+        updateEditView();
+    }
+
+    @FXML
+    public void handleEditTeam(){
+        
+    }
+
+    @FXML
+    public void handleDeleteTeam(){
+        
+    }
+
+    @FXML
+    void handleSelectedTeamChanged(){
+        selectedTeam.setText(editTableView.getSelectionModel().getSelectedItem().toString());
+    }
+
+    protected void setEditTableView() {
+        editTableView.setItems(teams);
+    }
+
+    protected void updateEditView() {
+        updateTeamsList();
+        setEditTableView();
+    }
+
+    @FXML
     public void initialize() {
         setTable(getSavedTable());
         updateTeamsList();
+        try{
         setTableView();
         teamsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("name"));
         pointsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("points"));
         updateView();
         setChoices();
+        editTeamColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("name"));
+        editPointsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("points"));
+        updateEditView();
+        } catch(Exception e){}
     }
 }
