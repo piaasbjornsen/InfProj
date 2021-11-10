@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -28,7 +29,7 @@ public class EliteserienAppController{
     // FXML attributes:
 
     @FXML
-    String fileName; // Contains json-filename.
+    String initialFileName; // Contains json-filename
 
     @FXML
     TableView<TeamProperties> tableView; // TableView for Elitserien table
@@ -58,31 +59,10 @@ public class EliteserienAppController{
     TextField message;     // Text field for error messages to user
 
     @FXML
-    Button testButton;
+    TextField fileNameInput;
 
     @FXML
-    Button testButton2;
-
-    @FXML
-    TableView<TeamProperties> editTableView;
-
-    @FXML
-    TableColumn<TeamProperties, String> editTeamColumn;
-
-    @FXML
-    TableColumn<TeamProperties, String> editPointsColumn;
-
-    @FXML
-    TextField selectedTeam;
-
-    @FXML
-    TextField editTeamName;
-
-    @FXML
-    TextField editTeamPoints;
-    
-    @FXML
-    TextField errorMessageEditWindow;
+    Label tableName;
 
     /**
      * Attributes: 
@@ -94,6 +74,9 @@ public class EliteserienAppController{
     private TablePersistence tablePersistence = new TablePersistence();
     private Table table;
     private ObservableList<TeamProperties> teams = FXCollections.observableArrayList(); 
+    private String fileName;
+    private EditTableController editTableController;
+
 
 
     /**
@@ -105,7 +88,7 @@ public class EliteserienAppController{
     private Table getInitialTable() {
         Table initialTable = null;
         try {
-            initialTable = tablePersistence.loadInitialTable(fileName);
+            initialTable = tablePersistence.loadInitialTable(initialFileName);
         } catch (IOException e) {
             System.err.println("Could not read initial table");
         }
@@ -165,6 +148,19 @@ public class EliteserienAppController{
     public void setTable(Table table) {
         this.table = table;
     }
+    
+    public void setFileName(String inputName) {
+        if (inputName.endsWith(".json")) {
+            this.fileName = inputName;
+        }
+        else {
+            this.fileName = inputName.concat(".json");
+        }
+    }
+
+    private void setTableName(String name) {
+        tableName.setText(name);
+    }
 
     /**
      * Updates the observable list of teams to match the teams in table
@@ -193,7 +189,9 @@ public class EliteserienAppController{
     */
 
     protected void updateView() {
+        setTableName(fileName.substring(0, fileName.length() - 5));
         updateTeamsList();
+        setChoices();
         setTableView();
     }
 
@@ -203,7 +201,9 @@ public class EliteserienAppController{
      * because the app does not support adding teams
     */
 
-    private void setChoices(){                     
+    private void setChoices(){            
+        home.getItems().clear();
+        away.getItems().clear();         
         for (Team team : table.getTeams()){        
            home.getItems().add(team.getName());
            away.getItems().add(team.getName());
@@ -240,10 +240,10 @@ public class EliteserienAppController{
         int pointsHome = 0;                       // Set points 0
         int pointsAway = 0;
         try {
-            if(pointsH.getText() != ""){          // If points field is not empty try parseInt (if empty: points will stay 0)
+            if(!pointsH.getText().isEmpty()) {          // If points field is not empty try parseInt (if empty: points will stay 0)
                 pointsHome = Integer.parseInt(pointsH.getText());
             }
-            if(pointsA.getText() != ""){
+            if(!pointsA.getText().isEmpty()){
                 pointsAway = Integer.parseInt(pointsA.getText());
             }
             validPoints(pointsHome);             // Check if points are valid (positive numbers only)
@@ -292,76 +292,21 @@ public class EliteserienAppController{
      * in json-file in user.home folder.
     */
 
+
     @FXML
     public void handleEdit(){
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditTable.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditTable.fxml"));            
             Parent root1 = (Parent) fxmlLoader.load();
+            editTableController = fxmlLoader.getController();
+            editTableController.setFileName(fileName);
+            editTableController.setTable(table);
+            editTableController.updateView();
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
             message.setText("Unable to load edit window");
-        }
-
-    }
-
-    @FXML
-    public void handleSave2(){
-        saveTable();
-        Stage stage = (Stage) testButton2.getScene().getWindow();
-        stage.close();
-    }
-
-    @FXML
-    public void handleAddTeam(){
-        errorMessageEditWindow.clear();
-        String teamName = editTeamName.getText();        // Extract input from choice boxes
-        int points = 0;                       // Set points 0
-        try {
-            if(editTeamPoints.getText() != ""){          // If points field is not empty try parseInt (if empty: points will stay 0)
-                points = Integer.parseInt(editTeamPoints.getText());
-            }
-            validPoints(points);             // Check if points are valid (positive numbers only)
-        }
-        catch(IllegalArgumentException e){       // Exception thrown if points is not int or points<0
-            errorMessageEditWindow.setText("Invalid points");   // Rrint error message to user
-            return;
-        }
-        Team team = new Team(teamName, points);
-        table.addTeams(team);
-        saveTable();
-
-        editTeamName.clear();
-        editTeamPoints.clear();
-        updateEditView();
-    }
-
-    @FXML
-    public void handleEditTeam(){
-        if(selectedTeam.getText() != ""){
-            editTeamName.setText(selectedTeam.getText());
-            for (Team team : table.getTeams()){
-                if (selectedTeam.getText().equals(team.getName())){
-                    editTeamPoints.setText(String.valueOf(team.getPoints()));
-                    table.deleteTeam(team);
-                }
-            }
-            updateEditView();
-            selectedTeam.clear();
-        }
-    }
-
-    @FXML
-    public void handleDeleteTeam(){
-        if(selectedTeam.getText() != ""){
-            for (Team team : table.getTeams()){
-                if (selectedTeam.getText().equals(team.getName())){
-                    table.deleteTeam(team);
-                }
-            }
-            updateEditView();
-            selectedTeam.clear();
         }
     }
 
@@ -372,21 +317,29 @@ public class EliteserienAppController{
     }
 
     @FXML
-    void handleSelectedTeamChanged(){
-        selectedTeam.setText(editTableView.getSelectionModel().getSelectedItem().getName());
-    }
-
-    protected void setEditTableView() {
-        editTableView.setItems(teams);
-    }
-
-    protected void updateEditView() {
-        updateTeamsList();
-        setEditTableView();
+    void handleOpenFile() {
+        Table saveTable = new Table();
+        setFileName(fileNameInput.getText());
+        try {
+            saveTable = tablePersistence.loadSavedTable(fileName);
+            this.table = saveTable;
+        } catch (IOException e) {
+            message.setText("Could not find file, made a new one.");
+            try {
+                tablePersistence.saveTable(saveTable, fileName);
+                this.table = saveTable;
+            } catch (IOException io) {
+                message.setText("Could not find or make file, try a new filename");
+            }
+        }
+        updateView();
     }
 
     @FXML
     public void initialize() {
+        if (fileName == null) {
+            setFileName(initialFileName);
+        }
         setTable(getSavedTable());
         updateTeamsList();
         try{
@@ -395,11 +348,8 @@ public class EliteserienAppController{
         pointsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("points"));
         updateView();
         setChoices();
-        } catch(Exception e){}
-        try{
-        editTeamColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("name"));
-        editPointsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("points"));
-        updateEditView();
-        } catch(Exception e){}
+        } catch(Exception e){
+
+        }
     }
 }

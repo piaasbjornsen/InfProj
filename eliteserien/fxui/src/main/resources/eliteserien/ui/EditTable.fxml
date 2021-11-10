@@ -11,17 +11,14 @@
 <?import java.lang.String?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="297.0" prefWidth="331.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eliteserien.ui.EliteserienAppController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="297.0" prefWidth="331.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eliteserien.ui.EditTableController">
    <children>
-      <fx:define>
-        <String fx:id="fileName" fx:value="Table.json"/>
-      </fx:define>
       <Rectangle fill="#8dbef4" height="46.0" stroke="#8dbef4" strokeType="INSIDE" width="331.0" />
-      <Button fx:id="testButton2" layoutX="280.0" layoutY="262.0" mnemonicParsing="false" onAction="#handleSave2" text="Save" />
-      <TableView fx:id="editTableView" layoutX="8.0" layoutY="53.0" onMouseClicked="#handleSelectedTeamChanged" prefHeight="78.0" prefWidth="316.0">
+      <Button fx:id="handleSave" layoutX="280.0" layoutY="262.0" mnemonicParsing="false" onAction="#handleSave" text="Save" />
+      <TableView fx:id="tableView" layoutX="8.0" layoutY="53.0" onMouseClicked="#handleSelectedTeamChanged" prefHeight="78.0" prefWidth="316.0">
         <columns>
-          <TableColumn fx:id="editTeamColumn" prefWidth="233.0" text="Team" />
-          <TableColumn fx:id="editPointsColumn" prefWidth="82.0" text="Points" />
+          <TableColumn fx:id="teamsColumn" prefWidth="233.0" text="Team" />
+          <TableColumn fx:id="pointsColumn" prefWidth="82.0" text="Points" />
         </columns>
       </TableView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="53.0" layoutX="7.0" layoutY="138.0" stroke="BLACK" strokeType="INSIDE" width="277.0" />
@@ -39,7 +36,7 @@
       </Label>
       <Label layoutX="15.0" layoutY="140.0" text="New team/Edit team" />
       <Label layoutX="15.0" layoutY="199.0" text="Selected team" />
-      <TextField fx:id="errorMessageEditWindow" editable="false" layoutX="53.0" layoutY="261.0" prefHeight="26.0" prefWidth="134.0" promptText="No current error" />
+      <TextField fx:id="errorMessageWindow" editable="false" layoutX="53.0" layoutY="261.0" prefHeight="26.0" prefWidth="134.0" promptText="No current error" />
       <Label layoutX="15.0" layoutY="266.0" text="Error:" />
    </children>
 </AnchorPane>
