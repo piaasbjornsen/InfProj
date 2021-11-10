@@ -15,55 +15,55 @@
 <?import java.lang.String?>
 
 
-<AnchorPane maxHeight="415.0" maxWidth="316.0" minHeight="415.0" minWidth="316.0" prefHeight="415.0" prefWidth="316.0" style="-fx-background-color: #8DBEF4;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eliteserien.ui.EliteserienAppController">
+<AnchorPane maxHeight="500.0" maxWidth="316.0" minHeight="415.0" minWidth="316.0" prefHeight="500.0" prefWidth="316.0" style="-fx-background-color: #8DBEF4;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eliteserien.ui.EliteserienAppController">
    <children>
       <fx:define>
-        <String fx:id="fileName" fx:value="Table.json"/>
+        <String fx:id="initialFileName" fx:value="Eliteserien.json"/>
       </fx:define>
-      <TableView fx:id="tableView" layoutY="40.0" prefHeight="254.0" prefWidth="316.0" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+      <TableView fx:id="tableView" layoutY="40.0" prefHeight="144.0" prefWidth="316.0" AnchorPane.bottomAnchor="171.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
          <columns>
             <TableColumn fx:id="teamsColumn" prefWidth="197.56046748161316" text="TeamName"/>
             <TableColumn fx:id="pointsColumn" minWidth="4.0" prefWidth="116.99998474121094" text="Points"/>
          </columns>
       </TableView>
-      <Label layoutX="9.0" layoutY="8.0" text="Eliteserien">
+      <Label fx:id="tableName" layoutX="9.0" layoutY="8.0" text="Table">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-       <ChoiceBox fx:id="home" layoutX="4.0" layoutY="339.0" prefHeight="26.0" prefWidth="101.0" />
-      <ChoiceBox fx:id="away" layoutX="212.0" layoutY="339.0" prefHeight="26.0" prefWidth="101.0" />
-      <TextField fx:id="pointsH" layoutX="110.0" layoutY="339.0" prefHeight="22.0" prefWidth="30.0" />
-      <TextField fx:id="pointsA" layoutX="178.0" layoutY="339.0" prefHeight="22.0" prefWidth="30.0" />
-      <Label layoutX="7.0" layoutY="297.0" text="New match">
+       <ChoiceBox fx:id="home" layoutX="4.0" layoutY="379.0" prefHeight="26.0" prefWidth="101.0" />
+      <ChoiceBox fx:id="away" layoutX="212.0" layoutY="379.0" prefHeight="26.0" prefWidth="101.0" />
+      <TextField fx:id="pointsH" layoutX="110.0" layoutY="379.0" prefHeight="22.0" prefWidth="30.0" />
+      <TextField fx:id="pointsA" layoutX="178.0" layoutY="379.0" prefHeight="22.0" prefWidth="30.0" />
+      <Label layoutX="7.0" layoutY="337.0" text="New match">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="6.0" layoutY="323.0" text="Home">
+      <Label layoutX="6.0" layoutY="363.0" text="Home">
          <font>
             <Font size="12.0" />
          </font>
       </Label>
-      <Label layoutX="215.0" layoutY="323.0" text="Away">
+      <Label layoutX="215.0" layoutY="363.0" text="Away">
          <font>
             <Font size="12.0" />
          </font>
       </Label>
-      <Separator layoutX="-7.0" layoutY="319.0" prefHeight="0.0" prefWidth="323.0" />
-      <Separator layoutX="-2.0" layoutY="374.0" prefHeight="4.0" prefWidth="318.0" />
-      <Label layoutX="111.0" layoutY="326.0" text="Points">
+      <Separator layoutX="-7.0" layoutY="325.0" prefHeight="0.0" prefWidth="323.0" />
+      <Separator layoutX="-2.0" layoutY="414.0" prefHeight="4.0" prefWidth="318.0" />
+      <Label layoutX="111.0" layoutY="366.0" text="Points">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <Label layoutX="179.0" layoutY="326.0" text="Points">
+      <Label layoutX="179.0" layoutY="366.0" text="Points">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <Label layoutX="150.0" layoutY="342.0" text="VS." />
-     <Button fx:id="saveButton" layoutX="242.0" layoutY="383.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="26.0" prefWidth="70.0" text="Save match">
+      <Label layoutX="150.0" layoutY="382.0" text="VS." />
+     <Button fx:id="saveButton" layoutX="202.0" layoutY="423.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="26.0" prefWidth="110.0" text="Save match">
          <font>
             <Font size="11.0" />
          </font>
@@ -78,10 +78,20 @@
             <Font size="11.0" />
          </font>
       </Button>
-      <TextField fx:id="message" editable="false" layoutX="4.0" layoutY="383.0" prefHeight="23.0" prefWidth="160.0">
+      <TextField fx:id="message" editable="false" layoutX="4.0" layoutY="423.0" prefHeight="23.0" prefWidth="160.0">
          <font>
             <Font size="12.0" />
          </font>
       </TextField>
+      <TextField fx:id="fileNameInput" layoutX="4.0" layoutY="463.0" prefHeight="23.0" prefWidth="160.0">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </TextField>
+      <Button fx:id="openFileButton" layoutX="202.0" layoutY="463.0" mnemonicParsing="false" onAction="#handleOpenFile" prefHeight="26.0" prefWidth="110.0" text="Open/Create File">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
