@@ -1,0 +1,102 @@
+@startuml
+
+title __UI's Class Diagram__\n
+
+    namespace eliteserien.ui {
+      class EliteserienApp {
+          {static} + main()
+          + start()
+      }
+
+      class EliteserienAppController {
+          ~ away : ChoiceBox<String>
+          ~ fileName : String
+          ~ home : ChoiceBox<String>
+          ~ message : TextField
+          ~ pointsA : TextField
+          ~ pointsColumn : TableColumn<TeamProperties, String>
+          ~ pointsH : TextField
+          ~ saveButton : Button
+          ~ tableView : TableView<TeamProperties>
+          ~ teamsColumn : TableColumn<TeamProperties, String>
+          - teams : ObservableList<TeamProperties>
+          + getSavedTable()
+          + getTable()
+          + handleSave()
+          + initialize()
+          + saveTable()
+          + setTable()
+          # setTableView()
+          # updateView()
+          - addTeamPoints()
+          - getInitialTable()
+          - setChoices()
+          - updateTeamsList()
+          - validPoints()
+      }
+
+      class TeamProperties {
+          - name : SimpleStringProperty
+          - points : SimpleStringProperty
+          + getName()
+          + getPoints()
+          ~ TeamProperties()
+      }
+    }
+    namespace eliteserien.json {
+      class TablePersistence {
+          - fileName : String
+          - filePath : Path
+          - mapper : ObjectMapper
+          + TablePersistence()
+          + loadInitialTable()
+          + loadSavedTable()
+          + readTable()
+          + saveTable()
+          + setFileName()
+          + setFilePath()
+          + writeTable()
+      }
+    }
+
+    namespace eliteserien.core {
+          class Table {
+              - name : String
+              - teams : List<Team>
+              + Table()
+              + addTeams()
+              + getName()
+              + getTable()
+              + getTeams()
+              + iterator()
+              + setName()
+              - sortTable()
+          }
+
+          class Team {
+              - name : String
+              - points : int
+              + Team()
+              + addPoints()
+              + getName()
+              + getPoints()
+              + setName()
+              + setPoints()
+          }
+
+          class TeamComparator {
+              + compare()
+          }
+        }
+
+
+
+
+  eliteserien.ui.EliteserienApp -up-|> javafx.application.Application
+  eliteserien.ui.EliteserienAppController o-- eliteserien.core.Table : table
+  eliteserien.ui.EliteserienAppController o-- eliteserien.json.TablePersistence : tablePersistence
+
+  eliteserien.core.TeamComparator .up.|> java.util.Comparator
+
+
+@enduml

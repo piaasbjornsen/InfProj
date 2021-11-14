@@ -1,0 +1,42 @@
+@startuml
+
+title __UI's Class Diagram__\n
+
+    namespace eliteserien.ui {
+      class EliteserienApp {
+      }
+
+      class EliteserienAppController {
+      }
+
+      class TeamProperties {
+      }
+    }
+    namespace eliteserien.json {
+      class TablePersistence {
+      }
+    }
+
+    namespace eliteserien.core {
+          class Table {
+          }
+
+          class Team {
+          }
+
+          class TeamComparator {
+          }
+        }
+
+
+
+
+  eliteserien.ui.EliteserienApp -up-|> javafx.application.Application
+  eliteserien.ui.EliteserienAppController o-- eliteserien.core.Table : table
+  eliteserien.ui.EliteserienAppController o-- eliteserien.json.TablePersistence : tablePersistence
+
+  eliteserien.core.TeamComparator .up.|> java.io.Serializable
+  eliteserien.core.TeamComparator .up.|> java.util.Comparator
+
+
+@enduml
