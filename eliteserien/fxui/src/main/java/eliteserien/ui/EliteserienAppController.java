@@ -61,6 +61,12 @@ public class EliteserienAppController {
     @FXML
     Label tableName; // name of the currently viewed table
 
+    @FXML
+    String initialFileName;
+
+    @FXML
+    String editTable;
+
     /**
      * Attributes: Tablepersistence object for reading and writing to json-file.
      * Table object made by collecting data from the json-file. ObservableList
@@ -70,7 +76,6 @@ public class EliteserienAppController {
     private TablePersistence tablePersistence = new TablePersistence();
     private Table table;
     private ObservableList<TeamProperties> teams = FXCollections.observableArrayList();
-    private String initialFileName = "Eliteserien";
     private String fileName;
     private EditTableController editTableController;
 
@@ -203,17 +208,14 @@ public class EliteserienAppController {
      * @return boolean value, true if pointstext is valid
      */
 
-    boolean checkPointsText(TextField points) {
-        if (!points.getText().isEmpty()) { // If points field is not empty try parseInt (if empty: points will stay 0)
-            return false;
-        }
+    boolean checkPoints(String points) {
         int pointsAsInt = 0;
         try{
-            pointsAsInt = Integer.parseInt(points.getText());
+            pointsAsInt = Integer.parseInt(points);
           } catch (NumberFormatException e) {
             return false;
           }
-        return pointsAsInt > 0;
+        return pointsAsInt >= 0;
     }
 
         
@@ -241,7 +243,7 @@ public class EliteserienAppController {
     */
 
     private boolean checkTeams(String homeTeam, String awayTeam) {
-        return (homeTeam == null || awayTeam == null || homeTeam == awayTeam); 
+        return !(homeTeam == null || awayTeam == null || homeTeam.equals(awayTeam)); 
     }
 
     /**
@@ -266,8 +268,8 @@ public class EliteserienAppController {
     void handleSave() {
         message.clear(); // Clear old error message if any
 
-        if (!checkPointsText(pointsH) || !checkPointsText(pointsA)) {
-            message.setText("Invalid Points");
+        if (!checkPoints(pointsH.getText()) || !checkPoints(pointsA.getText())) {
+            message.setText("Invalid points");
             return;
         }
 
@@ -275,12 +277,13 @@ public class EliteserienAppController {
             message.setText("Invalid teams");
             return;
         }
-        addTeamPoints(home.getValue(), Integer.parseInt(pointsH.getText()));
-        addTeamPoints(away.getValue(), Integer.parseInt(pointsA.getText()));
+        addTeamPoints(home.getValue().toString(), Integer.parseInt(pointsH.getText()));
+        addTeamPoints(away.getValue().toString(), Integer.parseInt(pointsA.getText()));
         updateTeamsList();
         resetInputFields();
-        updateView();
         saveTable();
+        setTable(getSavedTable());
+        updateView();
     }
 
     /**
@@ -293,7 +296,7 @@ public class EliteserienAppController {
     @FXML
     void handleEdit() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditTable.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(editTable));
             Parent root1 = (Parent) fxmlLoader.load();
             editTableController = fxmlLoader.getController();
             editTableController.setFileName(fileName);
@@ -308,13 +311,17 @@ public class EliteserienAppController {
         }
     }
 
+    EditTableController getEditTableController() {
+        return this.editTableController;
+    }
+
     /**
      * setting field "filename" to input value
      * 
      * @param inputName
      */
 
-    private void setFileName(String inputName) {
+    void setFileName(String inputName) {
         this.fileName = inputName.concat(".json");
     }
 
@@ -361,7 +368,7 @@ public class EliteserienAppController {
      * Sets tableView.
      */
 
-    private void updateView() {
+    void updateView() {
         setTableName(fileName.substring(0, fileName.length() - 5));
         updateTeamsList();
         setChoices();

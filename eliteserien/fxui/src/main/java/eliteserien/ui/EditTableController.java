@@ -158,7 +158,7 @@ public class EditTableController {
     @FXML
     public void handleAddTeam(){
         errorMessageWindow.clear();
-        if (!appController.checkPointsText(editTeamPoints)) {
+        if (!appController.checkPoints(editTeamPoints.getText())) {
             errorMessageWindow.setText("Invalid points");
         }
         Team team = new Team(editTeamName.getText(), Integer.parseInt(editTeamPoints.getText()));
@@ -256,6 +256,8 @@ public class EditTableController {
         teamsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("name"));
         pointsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("points"));
         updateView();
-        } catch(Exception e){}
+        } catch(Exception e){
+            System.err.println("Something went wrong when opening edit Window.");
+        }
     }
 }
