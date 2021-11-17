@@ -50,6 +50,7 @@ public class EditTableController {
     private Table table;
     private ObservableList<TeamProperties> teams = FXCollections.observableArrayList(); 
     private String fileName;
+    private EliteserienAppController appController;
 
     /**
      * Returns a table object based on data
@@ -104,9 +105,32 @@ public class EditTableController {
     public void setTable(Table table) {
         this.table = table;
     }
+
+    /**
+     * sets tableView using teams from teams-list.
+     */
+
+    protected void setTableView() {
+        tableView.setItems(teams);
+    }
+
+        /**
+     * Sets filename
+     * @param fileName
+    */
     
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+        /**
+     * Sets AppController
+     * makes it possible to update tableView in main window when saving edits.
+     * @param controller
+    */
+
+    public void setAppController(EliteserienAppController controller) {
+        this.appController = controller;
     }
 
     /**
@@ -122,69 +146,26 @@ public class EditTableController {
         }
     }
 
-    /**
-     * Checks if points added from the user is positive 
-     * If they are negative, it throws exception
-     * @param points
-     * @throws IllegalArgumentException
-     */
-    
-    private void validPoints(int points) throws IllegalArgumentException{   //check if points is positive
-        if(points < 0){         
-            throw new IllegalArgumentException();
-        }
-    }
-
     
     /**
-     * When user pushes save button, this method:
-     * Clears old messages and input boxesand
-     * Checks for input-errors:
-        * Is points valid (positive)
-        * Are the chosen teams two different teams?
-     * Updates table
-     * Resets choice boxes and text fields
-    */
-
-    @FXML
-    public void handleSave(){
-        saveTable();
-        Stage stage = (Stage) tableView.getScene().getWindow();
-        stage.close();
-    }
-
-    
-    /**
-     * When user pushes save button, this method:
-     * Clears old messages and input boxesand
-     * Checks for input-errors:
-        * Is points valid (positive)
-        * Are the chosen teams two different teams?
-     * Updates table
-     * Resets choice boxes and text fields
+     * Adds selected team to table
+     * Checks if points are valid
+     * Add team to table
+     * Updates tableview
+     * Resets text fields
     */
 
     @FXML
     public void handleAddTeam(){
         errorMessageWindow.clear();
-        String teamName = editTeamName.getText();        // Extract input from choice boxes
-        int points = 0;                       // Set points 0
-        try {
-            if(!editTeamPoints.getText().isEmpty()){          // If points field is not empty try parseInt (if empty: points will stay 0)
-                points = Integer.parseInt(editTeamPoints.getText());
-            }
-            validPoints(points);             // Check if points are valid (positive numbers only)
+        if (!appController.checkPointsText(editTeamPoints)) {
+            errorMessageWindow.setText("Invalid points");
         }
-        catch(IllegalArgumentException e){       // Exception thrown if points is not int or points<0
-            errorMessageWindow.setText("Invalid points");   // Rrint error message to user
-            return;
-        }
-        Team team = new Team(teamName, points);
+        Team team = new Team(editTeamName.getText(), Integer.parseInt(editTeamPoints.getText()));
         table.addTeams(team);
-        saveTable();
-
         editTeamName.clear();
         editTeamPoints.clear();
+        saveTable();
         updateView();
     }
 
@@ -229,7 +210,7 @@ public class EditTableController {
         }
     }
 
-        /**
+    /**
      * Adds the selected team from table
      * to the selected team field. 
     */
@@ -239,14 +220,31 @@ public class EditTableController {
         selectedTeam.setText(tableView.getSelectionModel().getSelectedItem().getName());
     }
 
-
-    protected void setTableView() {
-        tableView.setItems(teams);
-    }
+    /**
+     * Updates teams list and sets table view.
+     */
 
     protected void updateView() {
         updateTeamsList();
         setTableView();
+    }
+
+        /**
+     * When user pushes save button, this method:
+     * Clears old messages and input boxesand
+     * Checks for input-errors:
+        * Is points valid (positive)
+        * Are the chosen teams two different teams?
+     * Updates table
+     * Resets choice boxes and text fields
+    */
+
+    @FXML
+    public void handleSave(){
+        saveTable();
+        appController.handleLoad();
+        Stage stage = (Stage) tableView.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
