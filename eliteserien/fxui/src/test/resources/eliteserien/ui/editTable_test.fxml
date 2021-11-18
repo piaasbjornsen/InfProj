@@ -23,7 +23,7 @@
       </TableView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="53.0" layoutX="7.0" layoutY="138.0" stroke="BLACK" strokeType="INSIDE" width="277.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="53.0" layoutX="7.0" layoutY="197.0" stroke="BLACK" strokeType="INSIDE" width="245.0" />
-      <TextField fx:id="selectedTeam" editable="false" layoutX="14.0" layoutY="217.0" prefHeight="26.0" prefWidth="131.0" promptText="Click on team" />
+      <TextField fx:id="selectedTeam" layoutX="14.0" layoutY="217.0" prefHeight="26.0" prefWidth="131.0" promptText="Click on team" />
       <TextField fx:id="editTeamName" layoutX="14.0" layoutY="159.0" promptText="Team name" />
       <Button fx:id="deleteTeamButton" layoutX="193.0" layoutY="217.0" mnemonicParsing="false" onAction="#handleDeleteTeam" text="Delete" />
       <Button fx:id="editTeamButton" layoutX="150.0" layoutY="217.0" mnemonicParsing="false" onAction="#handleEditTeam" text="Edit" />
