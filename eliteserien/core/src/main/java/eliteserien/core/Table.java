@@ -17,7 +17,7 @@ public class Table {
     * Attributes: Name of table: "Tippeligaen", teams: ArrayList of Team objects. 
     */
 
-    private String name = "Eliteserien";
+    private String name = "eliteserien";
     private List<Team> teams = new ArrayList<>();
 
     
@@ -56,6 +56,15 @@ public class Table {
 
     public Table getTable(String name) {
         return this;
+    }
+
+    public Team getTeam(String name) {
+        for (Team team : getTeams()) {
+            if (team.getName().equals(name)) {
+                return team;
+            }
+        }
+        return new Team(name, 0);
     }
 
     /** 

@@ -10,7 +10,7 @@ import javafx.stage.Stage;
  * Standalone version of the app
 */
 
-public class EliteserienApp extends Application {
+public class App extends Application {
 
   /**
    * Loads the fxml file for the app and creates window/stage for it
@@ -27,6 +27,6 @@ public class EliteserienApp extends Application {
    * Launches the App
   */
   public static void main(String[] args) {
-    launch(EliteserienApp.class, args);
+    launch(App.class, args);
   }
 }

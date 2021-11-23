@@ -23,11 +23,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class EliteserienAppControllerTest extends ApplicationTest {
+public class AppControllerTest extends ApplicationTest {
     
 
     private TablePersistence tablePersistence = new TablePersistence();
-    private EliteserienAppController controller;
+    private AppController controller;
     private Table table;
 
     @Override

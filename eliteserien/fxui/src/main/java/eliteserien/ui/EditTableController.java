@@ -1,6 +1,7 @@
 package eliteserien.ui;
 
 import java.io.IOException;
+import java.net.URI;
 
 import eliteserien.core.Table;
 import eliteserien.core.Team;
@@ -50,7 +51,8 @@ public class EditTableController {
     private Table table;
     private ObservableList<TeamProperties> teams = FXCollections.observableArrayList(); 
     private String fileName;
-    private EliteserienAppController appController;
+    private AppController appController;
+    private RemoteAppController remoteAppController;
 
     /**
      * Returns a table object based on data
@@ -62,11 +64,13 @@ public class EditTableController {
 
     public Table getSavedTable() {
         Table savedTable = null;
-        try {
-            savedTable = tablePersistence.loadSavedTable(fileName);
-            return savedTable;
-        } catch (IOException e) {
-            System.err.println("Could not read saved table");
+        if (remoteAppController == null) {
+            try {
+                savedTable = tablePersistence.loadSavedTable(fileName);
+                return savedTable;
+            } catch (IOException e) {
+                System.err.println("Could not read saved table");
+            }
         }
         return new Table();
     }
@@ -77,10 +81,16 @@ public class EditTableController {
     */
 
     public void saveTable() {
-        try {
-            tablePersistence.saveTable(table, fileName);
-        } catch (IOException e) {
-            System.err.println("Could not save Table");
+        if (appController != null) {
+            try {
+                tablePersistence.saveTable(table, fileName);
+            } catch (IOException e) {
+                System.err.println("Could not save Table");
+            }
+        }
+        if (remoteAppController != null) {
+            remoteAppController.setTable(table);
+            remoteAppController.saveTable(table);
         }
     }
 
@@ -129,8 +139,12 @@ public class EditTableController {
      * @param controller
     */
 
-    public void setAppController(EliteserienAppController controller) {
+    public void setAppController(AppController controller) {
         this.appController = controller;
+    }
+
+    public void setRemoteAppController(RemoteAppController remoteController) {
+        this.remoteAppController = remoteController;
     }
 
     /**
@@ -158,8 +172,15 @@ public class EditTableController {
     @FXML
     public void handleAddTeam(){
         errorMessageWindow.clear();
-        if (!appController.checkPoints(editTeamPoints.getText())) {
-            errorMessageWindow.setText("Invalid points");
+        if (appController != null) {
+            if (!appController.checkPoints(editTeamPoints.getText())) {
+                errorMessageWindow.setText("Invalid points");
+            }
+        }
+        if (remoteAppController != null) {
+            if (!remoteAppController.checkPoints(editTeamPoints.getText())) {
+                errorMessageWindow.setText("Invalid points");  
+            }
         }
         Team team = new Team(editTeamName.getText(), Integer.parseInt(editTeamPoints.getText()));
         table.addTeams(team);
@@ -205,6 +226,7 @@ public class EditTableController {
                     table.deleteTeam(team);
                 }
             }
+            saveTable();
             updateView();
             selectedTeam.clear();
         }
@@ -242,7 +264,12 @@ public class EditTableController {
     @FXML
     public void handleSave(){
         saveTable();
-        appController.handleLoad();
+        if (appController != null) {
+            appController.handleLoad();
+        }
+        if (remoteAppController != null) {
+            remoteAppController.handleLoad();
+        }
         Stage stage = (Stage) tableView.getScene().getWindow();
         stage.close();
     }
