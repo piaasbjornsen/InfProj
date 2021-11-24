@@ -1,0 +1,20 @@
+{
+    "Table": [
+        {
+            "teamname": "Config",
+            "points": 20
+        },
+        {
+            "teamname": "test",
+            "points": 15
+        },
+        {
+            "teamname": "test2",
+            "points": 47
+        },
+        {
+            "teamname": "test3",
+            "points": 43
+        }
+    ]
+}
