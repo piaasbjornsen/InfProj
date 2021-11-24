@@ -127,14 +127,14 @@ public class TablePersistence {
     }
   }
 
-    /**
-   * Used in RemoteEliteserienAccess
+  /**
+   * Creates a jackson module for 
+   * Used in RemoteEliteserienAccess and in TableModuleObjectMaperProvider
    * @return ObjectMapper
-   */
+  */
+
   public static ObjectMapper createObjectMapper() {
     return new ObjectMapper()
       .registerModule(new TableModule());
   }
-
-
 }
