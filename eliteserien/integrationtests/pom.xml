@@ -15,6 +15,7 @@
     <properties>
         <slf4jVersion>1.7.25</slf4jVersion>
         <jerseyVersion>3.0.1</jerseyVersion>
+        <jetty.port>8999</jetty.port>
     </properties>
 
     <dependencies>
