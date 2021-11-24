@@ -15,9 +15,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
-public class EliteserienAppTest extends ApplicationTest {
+public class AppTest extends ApplicationTest {
 
-  private EliteserienAppController controller;
+  private AppController controller;
   private TablePersistence tablePersistence = new TablePersistence();
 
   @Override

@@ -1,6 +1,14 @@
 package eliteserien.ui;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpRequest.BodyPublishers;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import eliteserien.core.Table;
 import eliteserien.core.Team;
@@ -14,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.Parent;
@@ -24,7 +33,7 @@ import javafx.stage.Stage;
  * Controller class
  */
 
-public class EliteserienAppController {
+public class RemoteAppController {
 
     // FXML attributes:
 
@@ -56,16 +65,16 @@ public class EliteserienAppController {
     TextField message; // Text field for error messages to user
 
     @FXML
-    TextField fileNameInput; // filename input from user
+    TextField tableNameInput; // filename input from user
 
     @FXML
     Label tableName; // name of the currently viewed table
 
     @FXML
-    String initialFileName;
+    String editTable;
 
     @FXML
-    String editTable;
+    String endpointUri;
 
     /**
      * Attributes: Tablepersistence object for reading and writing to json-file.
@@ -73,60 +82,33 @@ public class EliteserienAppController {
      * object for tableView
      */
 
-    private TablePersistence tablePersistence = new TablePersistence();
+    private ObjectMapper objectMapper;
     private Table table;
     private ObservableList<TeamProperties> teams = FXCollections.observableArrayList();
-    private String fileName;
     private EditTableController editTableController;
+    private URI uri;
 
     /**
-     * Returns a table object based on data collected from the json-file found in
-     * resource folder.
-     * 
-     * @return initialTable
-     * @throws "Could not read initial table" to terminal if IOException
-     */
-
-    private Table getInitialTable() {
-        Table initialTable = null;
-        try {
-            initialTable = tablePersistence.loadInitialTable(initialFileName);
-        } catch (IOException e) {
-            System.err.println("Could not read initial table");
-        }
-        return initialTable;
-    }
-
-    /**
-     * Returns a table object based on data collected from the json-file in
-     * user.home folder. If json-file is not found, the method will return the table
-     * form initialTable-method.
-     * 
-     * @return getInitialTable() which returns initialTable
-     */
-
-    Table getSavedTable() {
-        Table savedTable = null;
-        try {
-            savedTable = tablePersistence.loadSavedTable(fileName);
-            return savedTable;
-        } catch (IOException e) {
-            System.err.println("Could not read saved table");
-        }
-        return getInitialTable();
-    }
-
-    /**
-     * Saves the Table Object as json-file in user.home folder.
+     * Emties the table in server and then add the current table.
      * 
      * @throws "Could not save Table" if IOException
      */
 
     void saveTable() {
         try {
-            tablePersistence.saveTable(table, fileName);
-        } catch (IOException e) {
-            System.err.println("Could not save Table");
+            emptyTable();
+            putTable(table);
+        } catch (RuntimeException e) {
+            System.err.println("Could not save table to server");
+        }
+    }
+
+    void saveTable(Table table) {
+        try {
+            emptyTable();
+            putTable(table);
+        } catch (RuntimeException e) {
+            System.err.println("savetable with table input");
         }
     }
 
@@ -137,30 +119,21 @@ public class EliteserienAppController {
      */
 
     Table getTable() {
-        Table getTable = new Table();
-        for (Team team : table.getTeams()) {
-            getTable.addTeams(team);
-        }
-        return getTable;
+        return this.table;
     }
-
-    /**
-     * Sets table object
-     * 
-     * @param table
-     */
 
     void setTable(Table table) {
         this.table = table;
     }
 
-        /**
+    /**
      * Sets tableText name
      * 
      * @param name name of table
-    */
+     */
 
     private void setTableName(String name) {
+        table.setName(name);
         tableName.setText(name);
     }
 
@@ -200,8 +173,8 @@ public class EliteserienAppController {
     }
 
     /**
-     * Checks if points added from the user is valid
-     * Return false if pointText is empty, negative or is not integer.
+     * Checks if points added from the user is valid Return false if pointText is
+     * empty, negative or is not integer.
      * 
      * @param points
      * @throws NumberFormatException
@@ -210,16 +183,15 @@ public class EliteserienAppController {
 
     boolean checkPoints(String points) {
         int pointsAsInt = 0;
-        try{
+        try {
             pointsAsInt = Integer.parseInt(points);
-          } catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return false;
-          }
+        }
         return pointsAsInt >= 0;
     }
 
-        
-             /**
+    /**
      * Add points to team object when user adds points
      * 
      * @param team
@@ -234,21 +206,20 @@ public class EliteserienAppController {
         }
     }
 
-        /**
-     * Checking if two teams are equal or fi either of them are null. 
+    /**
+     * Checking if two teams are equal or fi either of them are null.
      * 
      * @param homeTeam name as string
      * @param awayTeam name as string
      * @return boolean value, true if teams are different and not null.
-    */
+     */
 
     private boolean checkTeams(String homeTeam, String awayTeam) {
-        return !(homeTeam == null || awayTeam == null || homeTeam.equals(awayTeam)); 
+        return !(homeTeam == null || awayTeam == null || homeTeam.equals(awayTeam));
     }
 
     /**
-     * sets home and away choiceboxes to null
-     * and clears points textFields
+     * sets home and away choiceboxes to null and clears points textFields
      */
 
     private void resetInputFields() {
@@ -282,7 +253,6 @@ public class EliteserienAppController {
         updateTeamsList();
         resetInputFields();
         saveTable();
-        setTable(getSavedTable());
         updateView();
     }
 
@@ -299,10 +269,10 @@ public class EliteserienAppController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(editTable));
             Parent root1 = (Parent) fxmlLoader.load();
             editTableController = fxmlLoader.getController();
-            editTableController.setFileName(fileName);
+            editTableController.setFileName("eliteserien-server"); // fix
             editTableController.setTable(table);
             editTableController.updateView();
-            editTableController.setAppController(this);
+            editTableController.setRemoteAppController(this);
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.show();
@@ -318,11 +288,15 @@ public class EliteserienAppController {
     /**
      * setting field "filename" to input value
      * 
-     * @param inputName
+     * @param uri
      */
 
-    void setFileName(String inputName) {
-        this.fileName = inputName.concat(".json");
+    void setUri(URI uri) {
+        this.uri = uri;
+    }
+
+    public URI getUri() {
+        return uri;
     }
 
     /**
@@ -330,23 +304,12 @@ public class EliteserienAppController {
      * input name is made with an empty table.
      */
 
+     // handleTableNameChange - fix
+
     @FXML
     void handleOpenFile() {
         message.clear();
-        Table saveTable = new Table();
-        setFileName(fileNameInput.getText());
-        try {
-            saveTable = tablePersistence.loadSavedTable(fileName);
-            this.table = saveTable;
-        } catch (IOException e) {
-            message.setText("Could not find file, made a new one.");
-            try {
-                tablePersistence.saveTable(saveTable, fileName);
-                this.table = saveTable;
-            } catch (IOException io) {
-                message.setText("Could not find or make file, try a new filename");
-            }
-        }
+        setTableName(tableNameInput.toString());
         updateView();
     }
 
@@ -357,37 +320,95 @@ public class EliteserienAppController {
 
     @FXML
     void handleLoad() {
-        setTable(getSavedTable());
+        try {
+            setTable(getUriTable(uri));
+        } catch (RuntimeException e) {
+            System.out.println("could not load table from uri");
+        }
         updateView();
     }
 
-        /**
-     * Sets TableName as filename.
-     * Updates teams list.
-     * Sets team choice boxes.
-     * Sets tableView.
+    /**
+     * Sets TableName as filename. Updates teams list. Sets team choice boxes. Sets
+     * tableView.
      */
 
     void updateView() {
-        setTableName(fileName.substring(0, fileName.length() - 5));
+        setTableName(table.getName());
         updateTeamsList();
         setChoices();
         setTableView();
     }
 
+    public Table getUriTable(URI uri) {
+        HttpRequest request = HttpRequest.newBuilder(uri).header("Accept", "application/json").GET().build();
+        System.out.println(request.toString());
+        try {
+            final HttpResponse<String> response = HttpClient.newBuilder().build().send(request,
+                    HttpResponse.BodyHandlers.ofString());
+            Table newTable = objectMapper.readValue(response.body(), Table.class);
+            return newTable;
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void putTable(Table table) {
+        try {
+            String json = objectMapper.writeValueAsString(table);
+            System.out.println(json);
+            HttpRequest request = HttpRequest.newBuilder(uri).header("Accept", "application/json")
+                    .header("Content-Type", "application/json").PUT(BodyPublishers.ofString(json)).build();
+            System.out.println(request.toString());
+            final HttpResponse<String> response = HttpClient.newBuilder().build().send(request,
+                    HttpResponse.BodyHandlers.ofString());
+            String responseString = response.body();
+            Boolean added = objectMapper.readValue(responseString, Boolean.class);
+            if (added) {
+                System.out.println("table added");
+            }
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void emptyTable() {
+        try {
+            HttpRequest request = HttpRequest.newBuilder(uri)
+                .header("Accept", "application/json")
+                .DELETE()
+                .build();
+            final HttpResponse<String> response =
+                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            String responseString = response.body();
+            Boolean removed = objectMapper.readValue(responseString, Boolean.class);
+            if (removed != null) {
+              System.out.println("Table removed from server.");
+            }
+          } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+          }
+    }
+
+
+
     @FXML
     public void initialize() {
-        setFileName(initialFileName);
-        setTable(getSavedTable());
-        updateTeamsList();
-        try {
-            setTableView();
-            teamsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("name"));
-            pointsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("points"));
-            updateView();
-            setChoices();
-        } catch (Exception e) {
-            System.err.println("Something went wrong.");
+        objectMapper = TablePersistence.createObjectMapper();
+        if (endpointUri != null) {
+            try {
+                setUri(new URI(endpointUri));
+                System.out.println("Using remote endpoint @ " + endpointUri);
+                this.table = getUriTable(uri);
+                updateTeamsList();
+                setTableView();
+                teamsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("name"));
+                pointsColumn.setCellValueFactory(new PropertyValueFactory<TeamProperties, String>("points"));
+                updateView();
+                setChoices();
+            } catch (URISyntaxException e) {
+                System.err.println("Something went wrong when trying to use remote uri");
+            }
         }
     }
 }

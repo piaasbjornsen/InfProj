@@ -15,7 +15,7 @@
 <?import java.lang.String?>
 
 
-<AnchorPane maxHeight="500.0" maxWidth="316.0" minHeight="415.0" minWidth="316.0" prefHeight="500.0" prefWidth="316.0" style="-fx-background-color: #8DBEF4;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eliteserien.ui.EliteserienAppController">
+<AnchorPane maxHeight="500.0" maxWidth="316.0" minHeight="415.0" minWidth="316.0" prefHeight="500.0" prefWidth="316.0" style="-fx-background-color: #8DBEF4;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eliteserien.ui.AppController">
    <children>
       <fx:define>
          <String fx:id="initialFileName" fx:value="Eliteserien"/>
