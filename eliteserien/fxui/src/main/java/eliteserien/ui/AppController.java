@@ -93,7 +93,7 @@ public class AppController {
     private Table getInitialTable() {
         Table initialTable = null;
         try {
-            initialTable = tablePersistence.loadInitialTable(initialFileName);
+            initialTable = tablePersistence.loadInitialTable(fileName);
         } catch (IOException e) {
             System.err.println("Could not read initial table");
         }
