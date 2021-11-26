@@ -1,0 +1,88 @@
+@startuml
+title Sequence Diagram
+autonumber
+Actor you
+
+
+you -> GUI: "Writes data"
+GUI -> EditTableController : handleSave() *button pushed*
+activate EditTableController
+
+
+EditTableController -> EditTableController : saveTable()
+activate EditTableController
+
+EditTableController -> RemoteAppController : setTable()
+activate EditTableController
+activate RemoteAppController
+RemoteAppController -> Table : this.table = table
+activate Table
+Table --> EditTableController :
+deactivate EditTableController
+deactivate RemoteAppController
+
+
+deactivate Table
+
+EditTableController -> RemoteAppController : saveTable(table)
+activate EditTableController
+activate RemoteAppController
+RemoteAppController -> Table : setTable(table)
+activate RemoteAppController
+activate Table
+Table --> RemoteAppController :
+deactivate Table
+deactivate RemoteAppController
+
+RemoteAppController -> RemoteAppController : saveTable()
+activate RemoteAppController
+
+RemoteAppController -> TableService : emptyTable()
+activate TableService
+TableService --> RemoteAppController
+deactivate TableService
+
+RemoteAppController -> TableService : HTTP PUT /sportstable/
+activate TableService
+
+TableService -> Table : addTeams(team)
+activate Table
+
+Table -> TableService
+deactivate Table
+
+TableService -> tablePersistence : autoSaveTable()
+activate tablePersistence
+tablePersistence -> tablePersistence : saveTable()
+
+tablePersistence --> TableService
+deactivate tablePersistence
+
+TableService -> RemoteAppController: HTTP 200 true
+deactivate TableService
+deactivate RemoteAppController
+
+RemoteAppController --> EditTableController
+deactivate RemoteAppController
+
+deactivate EditTableController
+EditTableController --> EditTableController
+deactivate EditTableController
+EditTableController --> GUI
+deactivate EditTableControll
+GUI --> you
+
+
+
+
+deactivate TableService
+
+deactivate RemoteAppController
+deactivate RemoteAppController
+
+
+
+
+
+
+@enduml
