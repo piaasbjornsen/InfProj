@@ -3,8 +3,8 @@ image:
 
 tasks:
   - init: sdk use java 16.0.1.hs-adpt
-    prebuild: cd eliteserien; mvn compile
-    command: cd eliteserien
+    prebuild: cd sportstable; mvn compile
+    command: cd sportstable
 
 ports:
   # used by virtual desktop and vnc, supports JavaFX
