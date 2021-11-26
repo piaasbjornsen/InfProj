@@ -1,0 +1,8 @@
+eliteserien/core/Table$TableTeam.class
+eliteserien/core/Table.class
+eliteserien/json/internal/TableSerializer.class
+eliteserien/json/TablePersistence.class
+eliteserien/core/TableListener.class
+eliteserien/json/internal/TableDeserializer.class
+eliteserien/json/internal/TableModule.class
+eliteserien/core/TeamComparator.class
