@@ -306,6 +306,7 @@ public class AppController {
             editTableController.setAppController(this);
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
+            stage.setResizable(false);
             stage.show();
         } catch (Exception e) {
             message.setText("Unable to load edit window");
@@ -334,6 +335,10 @@ public class AppController {
     @FXML
     void handleOpenFile() {
         message.clear();
+        if(fileNameInput.getText().isEmpty()){
+            message.setText("No file name entered");
+            return;
+        }
         Table saveTable = new Table();
         setFileName(fileNameInput.getText());
         try {
@@ -352,11 +357,10 @@ public class AppController {
     }
 
     /**
-     * Loads the saved table and updates view. User needs to press the load button
-     * to see changes made in edit window.
+     * Loads the saved table and updates view. 
      */
 
-    @FXML
+    //@FXML
     void handleLoad() {
         setTable(getSavedTable());
         updateView();
@@ -368,7 +372,6 @@ public class AppController {
      */
 
     void updateView() {
-        setTableName(fileName.substring(0, fileName.length() - 5));
         updateTeamsList();
         setChoices();
         setTableView();
@@ -377,6 +380,7 @@ public class AppController {
     @FXML
     public void initialize() {
         setFileName(initialFileName);
+        fileNameInput.setText(fileName.substring(0, fileName.length() - 5));
         setTable(getSavedTable());
         updateTeamsList();
         try {
