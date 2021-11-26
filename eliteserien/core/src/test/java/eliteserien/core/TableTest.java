@@ -35,7 +35,7 @@ public class TableTest {
 
     @Test
     public void testGetName() {
-        assertEquals("Eliteserien", table.getName());
+        assertEquals("eliteserien", table.getName());
     }
 
     /**

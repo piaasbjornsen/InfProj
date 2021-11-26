@@ -120,4 +120,21 @@ public class TablePersistence {
       writeTable(table, writer);
     } 
   }
+
+  public void saveTable(Table table) throws IOException {
+    try (Writer writer = new FileWriter(filePath.toFile(), StandardCharsets.UTF_8)) {
+      writeTable(table, writer);
+    }
+  }
+
+  /**
+   * Creates a jackson module for 
+   * Used in RemoteEliteserienAccess and in TableModuleObjectMaperProvider
+   * @return ObjectMapper
+  */
+
+  public static ObjectMapper createObjectMapper() {
+    return new ObjectMapper()
+      .registerModule(new TableModule());
+  }
 }
