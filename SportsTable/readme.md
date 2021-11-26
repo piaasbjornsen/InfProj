@@ -1,33 +1,32 @@
 
-## Eliteserien
+## SportsTable
 
-This project is a two-module application with a domenelayer, UI-layer and persistence layer using json. There are tests for all layers. The project is configured using maven. 
+This project is a multiple-module application. The project is configured using maven. 
 
-The application shows a table of the Norwegian football League "Eliteserien". There is a overview of the teams in the league and their points and placement. The user can add new match results and get an updated table with the new scores and placements of the teams, which will be saved in a json-file located in the users home folder. When the user restart the application after adding match results, they will see their saved version of the table.
+### The SportsTable application:
 
-## Example-image
+The application shows a table of the Norwegian football League "Eliteserien" for first time users. There is a overview of the teams in the league and their points and placement. The user can add new match results and get an updated table with the new scores and placements of the teams, which will be saved in a json-file located in the users home folder. When the user restart the application after adding match results, they will see their saved version of the table.
+
+If the user wants to make their own table, they can set a new filename and make the new file with an empty table. They can add teams with points in editTable window, and add match results in main window. The table can then be saved locally. The user can then access the saved table in application by writing the table name. 
+
+The application can also run with remote access, so that the table gets saved in remote server (localhost service). The remote table can be edited the same way as when using the table locally. The remote app does not support saving of multiple tables. As long as the server is running, the user will access the saved table in the server even if user stops and start the remote application. 
+
+### Example-image
 
 This is how the table should look when its complete:
 
 ![Exampleimage](docs/images/eliteserienexample.PNG)
 
-## Architecture
+### Architecture
 
 ![Architecture](docs/images/architecture.png)
 
-## How the code is organized
+### Project build
 
-The project is organized with a maven setup:
+The modules for the project is:
 
-# *core* module:
-The core module contains classes with logic that organize and handle all data the application uses and needs to run. The core-module containts the domene layer (src/main/java/core) and the persistence layer(src/main/java/json). These folders are independent from eachother. The core-module is also independent from the fxui-module.
-
-**src/main/java** contains source code and persistence.
-**src/main/resources** contains resources (only one json-file for now).
-
-# *fxui* module:
-This module contains all classes and logic needed to show and use the data from the core-layer. The start-class use the fxml-file from resources to show output. The fxml-file uses the controller to handle input and output from core-module. 
-**src/main/java** contains the controller and start-class.
-**src/main/resources** contains the fxml file.
-
-Both modules also have test-folders with the same structure as src-folders.
+- core: contains logic for Team and Table objects.
+- json: has persistence class and serializer/deserializer for reading and writing Table objects in json-format.
+- fxui: have Controller-classes for local and remote running of application and fxml files for ui-layer.
+- rest: contains TableService class that gets the the requests from RemoteApp - support requests GET, PUT and DELETE and sends these to localhost service.
+- integrationtests: Starting and running the server.
