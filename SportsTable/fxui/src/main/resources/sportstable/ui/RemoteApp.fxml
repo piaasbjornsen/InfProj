@@ -14,7 +14,7 @@
 <?import fxmltableview.*?> 
 <?import java.lang.String?>
 
-<AnchorPane maxHeight="500.0" maxWidth="316.0" minHeight="415.0" minWidth="316.0" prefHeight="500.0" prefWidth="316.0" style="-fx-background-color: #8DBEF4;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportstable.ui.RemoteAppController">
+<AnchorPane maxHeight="500.0" maxWidth="316.0" minHeight="415.0" minWidth="316.0" prefHeight="466.0" prefWidth="316.0" style="-fx-background-color: #8DBEF4;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportstable.ui.RemoteAppController">
     <children>
        <fx:define>
           <String fx:id="UriString" fx:value="http://localhost:8999/sportstable/"/>
@@ -79,7 +79,7 @@
             <Font size="14.0" />
          </font>
       </TextField>
-      <Button fx:id="tableName" layoutX="137.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSetTableName" prefHeight="27.0" prefWidth="101.0" text="Set Table Name">
+      <Button fx:id="setTableName" layoutX="137.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSetTableName" prefHeight="27.0" prefWidth="101.0" text="Set Table Name">
          <font>
             <Font size="11.0" />
          </font>

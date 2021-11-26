@@ -21,6 +21,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.control.TextField;
+import javafx.fxml.FXML;
 
 /**
  * Test class for LocalAppcController
@@ -243,6 +245,7 @@ public class LocalAppControllerTest extends ApplicationTest {
     public void testNewFile() {
 
         // Opening or creating testTableFile
+        controller.fileNameInput.setText("");
         clickOn("#fileNameInput").write("testTableFile");
         clickOn("#openFileButton");
 
