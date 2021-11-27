@@ -19,7 +19,7 @@ This is how the table should look when its complete:
 
 ### Architecture
 
-![Architecture](docs/images/architecture.png)
+![Architecture](docs/images/PackageDiagram.png)
 
 ### Project build
 
