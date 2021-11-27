@@ -1,12 +1,12 @@
 @startuml
-title Sequence Diagram
+title Sequence Diagram Detailed
 autonumber
 Actor you
 
 box "UI"
 you -> GUI : "Writes data"
-activate RemoteAppController
 GUI -> RemoteAppController : handleSave() *click button*
+activate RemoteAppController
 
 RemoteAppController -> RemoteAppController : message.clear()
 RemoteAppController -> you : "Invalid points"
