@@ -1,0 +1,10 @@
+@startuml
+participant Actor
+Actor -> RemoteAppController : addTeamPoints
+activate RemoteAppController
+RemoteAppController -> Team : addPoints
+activate Team
+Team --> RemoteAppController
+deactivate Team
+return
+@enduml
