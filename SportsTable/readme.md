@@ -18,11 +18,20 @@ This is how the table should look when its complete:
 ![Exampleimage](docs/images/eliteserienexample.PNG)
 
 ### Architecture
-
+**Package Diagram**
+ 
 ![Architecture](docs/images/PackageDiagram.png)
 
-### Project build
 
+**Class Diagram**
+
+Detailed:
+ 
+![Architecture](docs/images/ClassDiagramDetailed.png)
+
+Simple:
+ 
+![Architecture](docs/images/ClassDiagramSimple.png)
 The modules for the project is:
 
 - core: contains logic for Team and Table objects.
@@ -30,3 +39,29 @@ The modules for the project is:
 - fxui: have Controller-classes for local and remote running of application and fxml files for ui-layer.
 - rest: contains TableService class that gets the the requests from RemoteApp - support requests GET, PUT and DELETE and sends these to localhost service.
 - integrationtests: Starting and running the server.
+
+
+### Project build
+
+**Sequence Diagram**
+ 
+Detailed:
+
+![Architecture](docs/images/SequenceDiagram.png)
+
+Simple:
+
+![Architecture](docs/images/SequenceDiagramSimple.png)
+
+In these sequence diagrams you can se one example of how a user can use the application. The diagrams shows how the user,
+from the default window, can add results from a new match when the user is using a remote server. 
+
+First the user 
+inputs illegal values for points, and gets message "Invalid points" in the error window. Then the user tries again, 
+and the poits are valid. Now the rest of 
+the application workes without any errors, and the user can finally see how the new match affects the table.
+
+Notic that for better readabilty we have only showed one call to the addTeamPoints() method (call #8 in both diagrams). 
+This method will in reality be called twice, one time for the "home-team" and once for the "away-team"
+.
+
