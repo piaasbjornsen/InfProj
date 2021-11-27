@@ -1,0 +1,82 @@
+@startuml
+title Sequence Diagram Simple
+autonumber
+Actor you
+
+box "UI"
+you -> GUI : "Writes data"
+activate RemoteAppController
+GUI -> RemoteAppController : handleSave() *click button*
+
+RemoteAppController -> RemoteAppController : message.clear()
+RemoteAppController -> you : "Invalid points"
+deactivate RemoteAppController
+
+you -> GUI : "Writes new data"
+activate RemoteAppController
+GUI -> RemoteAppController : handleSave() *click button*
+
+RemoteAppController -> RemoteAppController : message.clear()
+RemoteAppController -> RemoteAppController : addTeamPoints()
+end box
+
+box Core
+
+deactivate Team
+
+
+RemoteAppController -> RemoteAppController : updateTeamsList()
+
+deactivate Team
+
+
+RemoteAppController -> RemoteAppController : resetInputFields()
+
+
+
+
+
+RemoteAppController -> RemoteAppController : saveTable()
+activate RemoteAppController
+
+end box
+
+box REST
+RemoteAppController -> TableService : emptyTable()
+activate TableService
+TableService -> RemoteAppController
+' PÅ LINJEN OVER KAN VI HA DOTTER DERSOM EMPTYTABLE() METODEN I REMOTEAPPCONTROLLER SENDER NOE TILBAKE TIL RAK ETTER Å HA SENDT REQUEST TIL REST
+deactivate TableService
+RemoteAppController -> TableService : HTTP PUT /sportstable/
+activate TableService
+
+TableService -> Table : addTeams(team)
+activate TableService
+activate Table
+Table -> TableService
+deactivate Table
+deactivate TableService
+end box
+box Core
+TableService -> tablePersistence : autoSaveTable()
+activate TableService
+
+
+activate tablePersistence
+
+tablePersistence -> TableService
+deactivate tablePersistence
+deactivate TableService
+TableService --> RemoteAppController: HTTP  true
+deactivate TableService
+deactivate RemoteAppController
+
+RemoteAppController -> RemoteAppController : updateView()
+
+RemoteAppController -> RemoteAppController : setChoices()
+
+RemoteAppController -> GUI : setTableView()
+
+GUI -> you : "Changes can be seen"
+
+@enduml

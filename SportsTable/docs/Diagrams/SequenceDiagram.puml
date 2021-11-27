@@ -103,7 +103,7 @@ tablePersistence -> TableService
 deactivate tablePersistence
 deactivate TableService
 TableService --> RemoteAppController: HTTP  true
-
+deactivate TableService
 deactivate RemoteAppController
 
 RemoteAppController -> RemoteAppController : updateView()
