@@ -13,7 +13,7 @@ public class Team {
      * Creates a sports team according to input name and input points
      *
      * @param Team   name
-     * @param points
+     * @param points teampoints
      */
 
     public Team(String name, int points) {
@@ -31,7 +31,7 @@ public class Team {
 
     /**
      * Sets name of Team object
-     * 
+     *
      * @param Team name
      */
 
@@ -49,7 +49,7 @@ public class Team {
 
     /**
      * Sets number of points to a Team object
-     * 
+     *
      * @param Points to a Team object
      */
 
@@ -59,7 +59,7 @@ public class Team {
 
     /**
      * Adds points to a Team object. Already existing points + new points
-     * 
+     *
      * @param Points to be added to a Team object
      */
 
