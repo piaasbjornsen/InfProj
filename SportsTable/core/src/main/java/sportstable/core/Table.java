@@ -35,7 +35,7 @@ public class Table {
 
     /**
      * Sets the name of table
-     * 
+     *
      * @param Table name
      */
 
@@ -78,7 +78,7 @@ public class Table {
 
     /**
      * Takes Team objects as input, and adds them to table
-     * 
+     *
      * @param A collection of teams
      * @throws IllegalStateException
      */
@@ -92,7 +92,7 @@ public class Table {
 
     /**
      * Deletes team
-     * 
+     *
      * @param Team object to delete
      */
 
@@ -102,7 +102,7 @@ public class Table {
 
     /**
      * Iterates through all teams in Table.
-     * 
+     *
      * @return iterator
      */
 
