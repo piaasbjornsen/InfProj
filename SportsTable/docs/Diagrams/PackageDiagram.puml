@@ -1,0 +1,42 @@
+@startuml
+
+component core {
+	package sportstable.core
+	package sportstable.json
+}
+
+component jackson {
+}
+
+sportstable.json ..> jackson
+
+component rest {
+	package sportstable.restapi
+	package sportstable.restserver
+}
+
+component fxui {
+	package sportstable.ui
+}
+
+sportstable.ui ..> sportstable.core
+sportstable.ui ..> sportstable.json
+sportstable.restapi ..> sportstable.core
+sportstable.restserver ..> sportstable.core
+sportstable.restserver ..> sportstable.json
+sportstable.restserver ..> sportstable.restapi
+
+
+component javafx {
+	component fxml {
+	}
+}
+
+component jersey {
+}
+
+fxui ..> javafx
+fxui ..> fxml
+rest ..> jersey
+
+@enduml

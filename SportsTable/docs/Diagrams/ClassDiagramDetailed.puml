@@ -1,0 +1,244 @@
+@startuml
+
+title __UI's Class Diagram Detailed__\n
+
+namespace Sportstable.core {
+          class Table {
+              - name : String
+              - teams : List<Team>
+              + Table()
+              + addTeams()
+              + deleteTeam()
+              + getName()
+              + getTable()
+              + getTeam()
+              + getTeams()
+              + iterator()
+              + setName()
+              - sortTable()
+          }
+
+          class Team {
+              - name : String
+              - points : int
+              + Team()
+              + addPoints()
+              + getName()
+              + getPoints()
+              + setName()
+              + setPoints()
+          }
+
+
+          class TeamComparator {
+              + compare()
+          }
+        }
+
+    namespace Sportstable.ui {
+
+      class EditTableController{
+                ~ editTeamName : TextField
+                ~ editTeamPoints : TextField
+                ~ errorMessageWindow : TextField
+                ~ pointsColumn : TableColumn<TeamProperties, String>
+                ~ selectedTeam : TextField
+                ~ tableView : TableView<TeamProperties>
+                ~ teamsColumn : TableColumn<TeamProperties, String>
+                - fileName : String
+                - teams : ObservableList<TeamProperties>
+                + getTable()
+                + handleAddTeam()
+                + handleDeleteTeam()
+                + handleEditTeam()
+                + handleSave()
+                + initialize()
+                + saveTable()
+                + setAppController()
+                + setFileName()
+                + setRemoteAppController()
+                + setTable()
+                # setTableView()
+                # updateView()
+                ~ handleSelectedTeamChanged()
+                - isRemote()
+                - updateTeamsList()
+              }
+        class LocalApp{
+        {static} + main()
+                  + start()
+        }
+
+        class LocalAppController{
+        ~ away : ChoiceBox<String>
+                  ~ editTable : String
+                  ~ fileNameInput : TextField
+                  ~ home : ChoiceBox<String>
+                  ~ initialFileName : String
+                  ~ message : TextField
+                  ~ pointsA : TextField
+                  ~ pointsColumn : TableColumn<TeamProperties, String>
+                  ~ pointsH : TextField
+                  ~ saveButton : Button
+                  ~ tableView : TableView<TeamProperties>
+                  ~ teamsColumn : TableColumn<TeamProperties, String>
+                  - fileName : String
+                  - teams : ObservableList<TeamProperties>
+                  + initialize()
+                  ~ checkPoints()
+                  ~ getEditTableController()
+                  ~ getSavedTable()
+                  ~ getTable()
+                  ~ handleEdit()
+                  ~ handleOpenFile()
+                  ~ handleSave()
+                  ~ saveTable()
+                  ~ setFileName()
+                  ~ setTable()
+                  ~ updateView()
+                  - addTeamPoints()
+                  - checkTeams()
+                  - getInitialTable()
+                  - resetInputFields()
+                  - setChoices()
+                  - setTableView()
+                  - updateTeamsList()
+        }
+
+        class RemoteApp{
+         {static} + main()
+                  + start()
+                  {static} + supportHeadless()
+        }
+
+        class RemoteAppController{
+         ~ UriString : String
+                  ~ away : ChoiceBox<String>
+                  ~ editTable : String
+                  ~ home : ChoiceBox<String>
+                  ~ message : TextField
+                  ~ pointsA : TextField
+                  ~ pointsColumn : TableColumn<TeamProperties, String>
+                  ~ pointsH : TextField
+                  ~ saveButton : Button
+                  ~ tableName : TextField
+                  ~ tableView : TableView<TeamProperties>
+                  ~ teamsColumn : TableColumn<TeamProperties, String>
+                  - objectMapper : ObjectMapper
+                  - teams : ObservableList<TeamProperties>
+                  - uri : URI
+                  + getUri()
+                  + getUriTable()
+                  + initialize()
+                  ~ checkPoints()
+                  ~ getEditTableController()
+                  ~ getTable()
+                  ~ handleEdit()
+                  ~ handleSave()
+                  ~ handleSetTableName()
+                  ~ saveTable()
+                  ~ saveTable()
+                  ~ setTable()
+                  ~ setUri()
+                  ~ updateView()
+                  - addTeamPoints()
+                  - checkTeams()
+                  - emptyTable()
+                  - putTable()
+                  - resetInputFields()
+                  - setChoices()
+                  - setTableName()
+                  - setTableView()
+                  - updateTeamsList()
+        }
+
+
+
+      class TeamProperties {
+          - name : SimpleStringProperty
+          - points : SimpleStringProperty
+          + getName()
+          + getPoints()
+          ~ TeamProperties()
+      }
+    }
+
+    namespace Sportstable.core.json {
+      class TablePersistence {
+          - fileName : String
+          - filePath : Path
+          - mapper : ObjectMapper
+          + TablePersistence()
+         {static} + createObjectMapper()
+          + loadInitialTable()
+          + loadSavedTable()
+          + readTable()
+          + saveTable()
+          + setFileName()
+          + setFilePath()
+          + writeTable()
+      }
+    }
+
+   namespace Sportstable.rest {
+   namespace Sportstable.rest.api{
+   class TableService{
+             {static} + SPORTSTABLE_SERVICE_PATH : String
+             {static} - LOG : Logger
+             + emptyTable()
+             + getTable()
+             + putTable()
+             - autoSaveTable()
+   }
+
+   }
+
+   namespace Sportstable.rest.server{
+   class TableConfig{
+   + TableConfig()
+             + TableConfig()
+             + getTable()
+             + setTable()
+             {static} - createDefaultTable()
+   }
+   class TableModuleObjectMapperProvider{
+   - objectMapper : ObjectMapper
+             + TableModuleObjectMapperProvider()
+             + getContext()
+   }
+   }
+   }
+
+
+
+
+
+
+
+  Sportstable.core.TeamComparator .up.|> java.io.Serializable
+  Sportstable.core.TeamComparator .up.|> java.util.Comparator
+
+  Sportstable.ui.EditTableController o-- Sportstable.ui.LocalAppController : appController
+
+  Sportstable.ui.EditTableController o-- Sportstable.core.Table : table
+  Sportstable.ui.RemoteAppController o-- Sportstable.core.Table : tabl
+  Sportstable.rest.api.TableService o-- Sportstable.core.Table : table
+  Sportstable.rest.server.TableConfig o-- Sportstable.core.Table : table
+
+
+  Sportstable.ui.EditTableController o-- Sportstable.core.json.TablePersistence : tablePersistence
+  Sportstable.ui.LocalAppController o-- Sportstable.core.json.TablePersistence : tablePersistence
+  Sportstable.rest.api.TableService o-- Sportstable.core.json.TablePersistence : tablePersistence
+  Sportstable.rest.server.TableConfig o-- Sportstable.core.json.TablePersistence : tablePersistence
+
+
+
+
+  Sportstable.ui.LocalAppController o-- Sportstable.ui.EditTableController : editTableController
+  Sportstable.ui.RemoteAppController o-- Sportstable.ui.EditTableController : editTableController
+
+  Sportstable.ui.EditTableController o-- Sportstable.ui.RemoteAppController : remoteAppController
+
+
+
+@enduml

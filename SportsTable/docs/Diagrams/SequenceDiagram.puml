@@ -1,0 +1,156 @@
+@startuml
+title Sequence Diagram Detailed
+autonumber
+Actor you
+
+box "UI"
+you -> GUI : "Writes data"
+GUI -> RemoteAppController : handleSave() *click button*
+activate RemoteAppController
+
+RemoteAppController -> RemoteAppController : message.clear()
+RemoteAppController -> you : "Invalid points"
+deactivate RemoteAppController
+
+you -> GUI : "Writes new data"
+activate RemoteAppController
+GUI -> RemoteAppController : handleSave() *click button*
+
+RemoteAppController -> RemoteAppController : message.clear()
+RemoteAppController -> RemoteAppController : addTeamPoints()
+activate RemoteAppController
+end box
+
+box Core
+RemoteAppController -> Table : getTeams()
+activate Table
+
+Table --> RemoteAppController : teamcollection
+deactivate Table
+RemoteAppController -> Team : addPoints(points)
+activate Team
+Team -> RemoteAppController
+deactivate Team
+deactivate RemoteAppController
+
+
+RemoteAppController -> RemoteAppController : updateTeamsList()
+activate RemoteAppController
+RemoteAppController -> RemoteAppController : teams.clear()
+RemoteAppController -> Table : getTeams()
+activate Table
+Table --> RemoteAppController : teamcollection
+deactivate Table
+
+RemoteAppController -> Team : getName()
+activate Team
+Team --> RemoteAppController : String name
+deactivate Team
+
+
+RemoteAppController -> Team : getPoints()
+activate Team
+Team --> RemoteAppController : int points
+deactivate Team
+deactivate RemoteAppController
+
+RemoteAppController -> RemoteAppController : resetInputFields()
+activate RemoteAppController
+RemoteAppController -> GUI : setValue(null)
+activate GUI
+GUI -> RemoteAppController : setValue(null)
+deactivate GUI
+RemoteAppController -> GUI : clear()
+activate GUI
+GUI -> RemoteAppController : setValue(null)
+deactivate GUI
+deactivate RemoteAppController
+
+
+
+
+RemoteAppController -> RemoteAppController : saveTable()
+activate RemoteAppController
+
+end box
+
+box REST
+RemoteAppController -> TableService : emptyTable()
+activate TableService
+TableService -> RemoteAppController
+' PÅ LINJEN OVER KAN VI HA DOTTER DERSOM EMPTYTABLE() METODEN I REMOTEAPPCONTROLLER SENDER NOE TILBAKE TIL RAK ETTER Å HA SENDT REQUEST TIL REST
+deactivate TableService
+RemoteAppController -> TableService : HTTP PUT /sportstable/
+activate TableService
+
+TableService -> Table : addTeams(team)
+activate TableService
+activate Table
+Table -> Table : sortTable()
+Table -> TableService
+deactivate Table
+deactivate TableService
+end box
+box Core
+TableService -> tablePersistence : autoSaveTable()
+activate TableService
+
+
+activate tablePersistence
+tablePersistence -> tablePersistence : saveTable()
+
+tablePersistence -> TableService
+deactivate tablePersistence
+deactivate TableService
+TableService --> RemoteAppController: HTTP  true
+deactivate TableService
+deactivate RemoteAppController
+
+RemoteAppController -> RemoteAppController : updateView()
+activate RemoteAppController
+RemoteAppController -> Table : setTableName()
+activate Table
+Table -> Table : setName()
+Table -> RemoteAppController
+deactivate Table
+
+RemoteAppController -> RemoteAppController : updateTeamsList()
+activate RemoteAppController
+RemoteAppController -> RemoteAppController : teams.clear()
+RemoteAppController -> Table : getTeams()
+activate Table
+Table --> RemoteAppController : teamcollection
+deactivate Table
+
+RemoteAppController -> Team : getName()
+activate Team
+Team --> RemoteAppController : String name
+deactivate Team
+
+
+RemoteAppController -> Team : getPoints()
+activate Team
+Team --> RemoteAppController : int points
+deactivate RemoteAppController
+deactivate Team
+RemoteAppController -> RemoteAppController : setChoices()
+activate RemoteAppController
+
+RemoteAppController -> GUI : getItems()
+activate GUI
+GUI -> RemoteAppController
+deactivate GUI
+RemoteAppController -> Table : getTeams()
+activate Table
+Table -> Team : getName()
+deactivate Table
+activate Team
+Team -> RemoteAppController
+deactivate RemoteAppController
+deactivate Team
+
+RemoteAppController -> GUI : setTableView()
+
+GUI -> you : "Changes can be seen"
+
+@enduml

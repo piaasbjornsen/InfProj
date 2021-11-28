@@ -1,0 +1,101 @@
+@startuml
+
+title __UI's Class Diagram Simple__\n
+
+namespace Sportstable.core {
+          class Table {
+
+          }
+
+          class Team {
+
+          }
+
+
+          class TeamComparator {
+          }
+        }
+
+    namespace Sportstable.ui {
+
+      class EditTableController{
+
+              }
+        class LocalApp{
+
+        }
+
+        class LocalAppController{
+
+        }
+
+        class RemoteApp{
+
+        }
+
+        class RemoteAppController{
+
+        }
+
+
+
+      class TeamProperties {
+
+      }
+    }
+
+    namespace Sportstable.core.json {
+      class TablePersistence {
+
+      }
+    }
+
+   namespace Sportstable.rest {
+   namespace Sportstable.rest.api{
+   class TableService{
+
+   }
+
+   }
+
+   namespace Sportstable.rest.server{
+   class TableConfig{
+
+   }
+   class TableModuleObjectMapperProvider{
+
+   }
+   }
+   }
+
+
+
+
+
+
+
+
+  Sportstable.ui.EditTableController o-- Sportstable.ui.LocalAppController : appController
+
+  Sportstable.ui.EditTableController o-- Sportstable.core.Table : table
+  Sportstable.ui.RemoteAppController o-- Sportstable.core.Table : tabl
+  Sportstable.rest.api.TableService o-- Sportstable.core.Table : table
+  Sportstable.rest.server.TableConfig o-- Sportstable.core.Table : table
+
+
+  Sportstable.ui.EditTableController o-- Sportstable.core.json.TablePersistence : tablePersistence
+  Sportstable.ui.LocalAppController o-- Sportstable.core.json.TablePersistence : tablePersistence
+  Sportstable.rest.api.TableService o-- Sportstable.core.json.TablePersistence : tablePersistence
+  Sportstable.rest.server.TableConfig o-- Sportstable.core.json.TablePersistence : tablePersistence
+
+
+
+
+  Sportstable.ui.LocalAppController o-- Sportstable.ui.EditTableController : editTableController
+  Sportstable.ui.RemoteAppController o-- Sportstable.ui.EditTableController : editTableController
+
+  Sportstable.ui.EditTableController o-- Sportstable.ui.RemoteAppController : remoteAppController
+
+
+
+@enduml
